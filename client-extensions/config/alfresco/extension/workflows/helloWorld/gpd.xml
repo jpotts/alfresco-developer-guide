@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="helloWorld" width="760" height="512">
+<root-container name="helloWorld" width="760" height="512">
   <node name="start" x="180" y="76" width="-1" height="-1">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="hello" x="310" y="171" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="end1" x="325" y="267" width="-1" height="-1"/>
-</process-diagram>
+</root-container>

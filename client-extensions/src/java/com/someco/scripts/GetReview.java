@@ -6,8 +6,9 @@ import java.util.Map;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.workflow.WorkflowService;
-import org.alfresco.web.scripts.Status;
 import org.alfresco.web.scripts.WebScriptRequest;
+import org.alfresco.web.scripts.Status;
+import org.alfresco.web.scripts.Cache;
 import org.apache.log4j.Logger;
 
 /**
@@ -23,7 +24,7 @@ public class GetReview extends org.alfresco.web.scripts.DeclarativeWebScript {
 	private WorkflowService workflowService;
 
 	@Override
-	protected Map<String, Object> executeImpl(WebScriptRequest req, Status status) {
+	protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache) {
 		
 		final String id = req.getParameter("id");
 		final String action = req.getParameter("action");
@@ -61,5 +62,5 @@ public class GetReview extends org.alfresco.web.scripts.DeclarativeWebScript {
 	public void setWorkflowService(WorkflowService workflowService) {
 		this.workflowService = workflowService;
 	}
-
+	
 }

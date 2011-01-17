@@ -1,7 +1,0 @@
-<webscript>
-  <shortname>Press Releases</shortname>
-  <description>Retrieves press release web form data</description>
-  <url>/someco/pressreleases?s={store}&amp;p={path}</url>
-  <authentication>user</authentication>
-  <transaction>none</transaction>
-</webscript>
