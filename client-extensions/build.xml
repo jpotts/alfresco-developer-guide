@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SomeCo Client Extensions" default="deploy" basedir=".">
+<project name="SomeCo Client Extensions ch9" default="deploy" basedir=".">
 	<property file="build.properties" />
 
-	<property name="label" value="main" />
+	<property name="label" value="ch9" />
 	<property name="project.dir" value="." />
 	<property name="build.dir" value="${project.dir}/build" />
 	<property name="bin.dir" value="${project.dir}/bin" />
