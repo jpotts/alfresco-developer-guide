@@ -201,7 +201,7 @@ public class InterviewSetupWizard extends BaseWizardBean {
 			UserGroup userGroup = this.userGroups.get(i);
 			String authority = userGroup.getAuthority();
 
-			// if User, email then, else if Group get all members and email them
+			// if User, send email
 			AuthorityType authType = AuthorityType.getAuthorityType(authority);
 			if (authType.equals(AuthorityType.USER)) {
 				if (this.getPersonService().personExists(authority) == true) {

@@ -66,7 +66,7 @@ public class WebSettingsBean implements Serializable {
 		   try {
 	            NodeRef ref = new NodeRef(Repository.getStoreRef(), id);
 				
-              // add to persistent store
+              // start the transaction
               UserTransaction tx = null;
               try {
                  tx = Repository.getUserTransaction(fc);
