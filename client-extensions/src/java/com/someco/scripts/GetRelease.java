@@ -22,10 +22,9 @@ import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.alfresco.util.ISO9075;
 import org.alfresco.web.bean.wcm.AVMUtil;
-import org.alfresco.web.scripts.Cache;
 import org.alfresco.web.scripts.DeclarativeWebScript;
-import org.alfresco.web.scripts.Status;
 import org.alfresco.web.scripts.WebScriptRequest;
+import org.alfresco.web.scripts.WebScriptStatus;
 
 public class GetRelease extends DeclarativeWebScript {
 	// Dependencies
@@ -38,8 +37,7 @@ public class GetRelease extends DeclarativeWebScript {
     private static final String PROP_WCM_FOLDER = "spaces.wcm.childname";
     
 	@Override
-	protected Map<String, Object> executeImpl(WebScriptRequest req,
-			Status status, Cache cache) {
+	protected Map<String, Object> executeImpl(WebScriptRequest req, WebScriptStatus status) {
 		// declare the model object we're going to return
 		Map<String, Object> model = new HashMap<String, Object>();
 
@@ -49,7 +47,9 @@ public class GetRelease extends DeclarativeWebScript {
 		model.put("store", store);
 		
 		if (store == null || store.length() == 0) {
-			status.setCode(Status.STATUS_BAD_REQUEST, "Store is a required parameter.");
+			status.setCode(400);			
+			status.setMessage("Store is a required parameter.");
+			status.setRedirect(true);
 			return model;
 		}
 
@@ -62,7 +62,9 @@ public class GetRelease extends DeclarativeWebScript {
 	                                     SandboxConstants.PROP_WEB_PROJECT_NODE_REF).getValue(DataTypeDefinition.NODE_REF);
        
 		if (webProjectNodeRef == null || !nodeService.exists(webProjectNodeRef)) {
-			status.setCode(Status.STATUS_INTERNAL_SERVER_ERROR, "Web project does not exist.");
+			status.setCode(500);			
+			status.setMessage("Web project does not exist.");
+			status.setRedirect(true);
 			return model;			
 		}
 		
