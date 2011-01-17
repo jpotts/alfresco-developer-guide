@@ -8,13 +8,23 @@ Chapter 2 Examples
 
 Chapter 2 included two examples. Both examples implemented two small customizations: a custom login page and a few simple custom types. The examples showed how to package and deploy these customizations. One example does it by copying the customizations into an exploded Alfresco web application. The other does it by packaging an AMP file and then calling the MMT to install the AMP into a WAR.
 
-To deploy without AMP:
+Chapter 3 Examples
+
+Chapter 3 includes extending the content model with several types, aspects, and associations. The model is exposed to the UI through web-client-config-custom. Several runnable web services examples, a PHP example, and JavaScript examples are also included.
+
+To run the Web Services examples:
+
+Either run the classes from Eclipse, remembering to set the arguments appropriately, or, run the associated Ant targets from the command-line.
+
+Chapter 4 Examples
+
+Chapter 4 includes writing custom actions, behaviors (both Java and JavaScript), server-side JavaScript, metadata extracters, and content transformers.
+
+The transformer example transforms MS Project files to plain text. It relies on a third-party library called mpxj.jar. That library depends on POI which is shipped with Alfresco. Over time, as Alfresco ships with newer versions of POI, a newer version of the MPXJ library may be required. 
+
+MPXJ was upgraded to 3.0.0 in this version of the source.
+
+To deploy:
 
 1. Make sure build.properties reflects the appropriate file paths.
 2. Run "ant deploy".
-
-To deploy as an AMP:
-
-1. Make sure build.properties reflects the appropriate file paths.
-2. Copy the alfresco.war to the client-extensions/build directory if it isn't there already.
-3. Run "ant deploy-amp -Dalfresco.war.path=[path to your workspace]/client-extensions/build/alfresco.war".
