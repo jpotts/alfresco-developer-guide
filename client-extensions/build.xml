@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SomeCo Client Extensions" default="deploy" basedir=".">
+<project name="SomeCo Client Extensions ch2" default="deploy" basedir=".">
 	<property file="build.properties" />
 
-	<property name="label" value="main" />
+	<property name="label" value="ch2" />
 	<property name="project.dir" value="." />
 	<property name="build.dir" value="${project.dir}/build" />
 	<property name="bin.dir" value="${project.dir}/bin" />
-	<property name="lib.dir" value="${project.dir}/lib" />
 	<property name="project.name" value="someco-client-extensions" />
 	<property name="package.file.zip" value="${build.dir}/${project.name}.zip" />
 	<property name="package.file.jar" value="${build.dir}/${project.name}.jar" />
@@ -19,8 +18,7 @@
 	<property name="data.dir" value="${project.dir}/data" />
 	<property name="web.dir" value="${source.dir}/web" />
 	<property name="extension.dir" value="/alfresco/extension" />
-	<property name="junit.config.file.jar" value="${build.dir}/junit-config.jar" />
-	
+
 	<path id="classpath.server">
 		<fileset dir="${alfresco.sdk.dir}/server" includes="**/*.jar" />
 	</path>
@@ -28,10 +26,6 @@
 	<path id="classpath.remote">
 		<fileset dir="${alfresco.sdk.dir}/remote" includes="**/*.jar" />
 	</path>	
-
-	<path id="classpath.local">
-		<fileset dir="${project.dir}/lib" includes="**/*.jar" />
-	</path>
 
 	<path id="classpath.build">
 	    <fileset dir="${build.dir}" includes="**/*.jar" />
@@ -55,13 +49,11 @@
 		<mkdir dir="${bin.dir}" />		
 	</target>
 
-	<target name="package-extension" depends="setup, package-jar, package-junit-config-jar" description="Creates a zip called ${package.file.zip} which can be unzipped on top of an exploded Alfresco web app">
+	<target name="package-extension" depends="setup, package-jar" description="Creates a zip called ${package.file.zip} which can be unzipped on top of an exploded Alfresco web app">
 		<delete file="${package.file.zip}" />
 		<zip destfile="${package.file.zip}" update="true">
 			<zipfileset dir="${config.dir}${extension.dir}" prefix="WEB-INF/classes${extension.dir}" />
-			<zipfileset file="${config.dir}/alfresco/web-client-config-wcm.xml" prefix="WEB-INF/classes/alfresco" />
 			<zipfileset file="${package.file.jar}" prefix="WEB-INF/lib" />
-			<zipfileset dir="${lib.dir}" prefix="WEB-INF/lib" />
 			<zipfileset dir="${web.dir}" excludes="META-INF/**" />
 		</zip>
 	</target>
@@ -74,6 +66,7 @@
 			<zipfileset file="${config.dir}${module.dir}/${module.id}/module.properties" />						
 			<zipfileset file="${config.dir}${module.dir}/${module.id}/file-mapping.properties" />
 			<zipfileset file="${config.dir}${module.dir}/${module.id}/module-context.xml" prefix="config${module.dir}/${module.id}" />
+			<zipfileset file="${config.dir}${module.dir}/${module.id}/someco-core.properties" prefix="config${module.dir}/${module.id}" />			
 			<zipfileset dir="${data.dir}" prefix="config${module.dir}/${module.id}/bootstrap" />
 			<zipfileset dir="${config.dir}${extension.dir}/model" prefix="config${module.dir}/${module.id}/model" />
  	 		<!--<zipfileset file="${config.dir}${extension.dir}/someco-model-context.xml" prefix="config${module.dir}/${module.id}" />-->
@@ -108,7 +101,6 @@
 		<javac srcdir="${source.dir}/java" destdir="${bin.dir}" source="1.5" target="1.5" debug="on" fork="yes" deprecation="on">
 			<classpath refid="classpath.server"/>
 			<classpath refid="classpath.remote"/>
-			<classpath refid="classpath.local"/>			
 		</javac>
 		<!-- copy in non-compiled files like props if needed -->
 		<copy todir="${bin.dir}">
@@ -121,16 +113,7 @@
 			<delete file="${package.file.jar}" />
 			<jar destfile="${package.file.jar}">
 				<fileset dir="${bin.dir}" includes="com/**" />
-				<fileset dir="${bin.dir}" includes="org/**" />				
 				<zipfileset dir="${web.dir}/META-INF" excludes="*.zip" prefix="META-INF" />				
-			</jar>
-	</target>
-	
-	<target name="package-junit-config-jar" depends="setup"
-		description="Jars up essential context files needed for the junit tests">
-			<delete file="${junit.config.file.jar}" />
-			<jar destfile="${junit.config.file.jar}" >
-				<zipfileset dir="${config.dir}${extension.dir}" includes="model/**, someco-behavior-context.xml, someco-model-context.xml, someco-services-context.xml" prefix="alfresco/extension" />
 			</jar>
 	</target>
 	
