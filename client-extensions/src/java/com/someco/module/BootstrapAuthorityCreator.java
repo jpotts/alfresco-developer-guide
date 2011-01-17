@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.transaction.UserTransaction;
 
 import org.alfresco.model.ContentModel;
-import org.alfresco.service.cmr.security.AuthenticationService;
+import org.alfresco.service.cmr.security.MutableAuthenticationService;
 import org.alfresco.service.cmr.security.AuthorityService;
 import org.alfresco.service.cmr.security.AuthorityType;
 import org.alfresco.service.cmr.security.PersonService;
@@ -19,7 +19,7 @@ public class BootstrapAuthorityCreator {
 	private AuthorityService authorityService;
     private PersonService personService;
     private TransactionService transactionService;
-    private AuthenticationService authenticationService;
+    private MutableAuthenticationService authenticationService;
     private UserTransaction tx;
     private static Logger logger = Logger.getLogger(BootstrapAuthorityCreator.class);
     
@@ -75,7 +75,7 @@ public class BootstrapAuthorityCreator {
     		salesGroup = authorityService.getName(AuthorityType.GROUP, "sales");
     	} else {
     		// create the sales group
-    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "sales");
+    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, "sales");
     	}
 
     	//add tuser1 and tuser2 to the sales group
@@ -86,7 +86,7 @@ public class BootstrapAuthorityCreator {
     		marketingGroup = authorityService.getName(AuthorityType.GROUP, "marketing");
     	} else {
     		// create the marketing group
-    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "marketing");
+    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, "marketing");
     	}
 
     	//add tuser3 and tuser4 to the marketing group
@@ -120,7 +120,7 @@ public class BootstrapAuthorityCreator {
 		this.transactionService = transactionService;
 	}
 
-	public void setAuthenticationService(AuthenticationService authenticationService) {
+	public void setAuthenticationService(MutableAuthenticationService authenticationService) {
 		this.authenticationService = authenticationService;
 	}
 }
