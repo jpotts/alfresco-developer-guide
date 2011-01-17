@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectHeader;
@@ -13,17 +12,17 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
 
 import org.alfresco.repo.content.MimetypeMap;
-import org.alfresco.repo.content.transform.AbstractContentTransformer;
+import org.alfresco.repo.content.transform.AbstractContentTransformer2;
 import org.alfresco.service.cmr.repository.ContentReader;
 import org.alfresco.service.cmr.repository.ContentWriter;
+import org.alfresco.service.cmr.repository.TransformationOptions;
 
-public class ProjectToPlainText extends AbstractContentTransformer {
+public class ProjectToPlainText extends AbstractContentTransformer2 {
 
 	public static final String MIMETYPE_PROJECT = "application/vnd.ms-project";
 	
 	@Override
-	protected void transformInternal(ContentReader reader, ContentWriter writer,
-			Map<String, Object> options) throws Exception {
+	protected void transformInternal(ContentReader reader, ContentWriter writer, TransformationOptions options) throws Exception {
 
 		Writer out = new BufferedWriter(new OutputStreamWriter(writer.getContentOutputStream()));
 		
@@ -65,6 +64,11 @@ public class ProjectToPlainText extends AbstractContentTransformer {
 	    	return 0.0;
 	    }
 
+	}
+
+	public boolean isTransformable(String sourceMimetype,
+		String targetMimetype, TransformationOptions options) {
+		return (getReliability(sourceMimetype, targetMimetype) == 1.0);
 	}
 
 }
