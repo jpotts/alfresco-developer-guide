@@ -10,48 +10,4 @@
             </list>
         </property>
     </bean>
-    <bean id="someco.workflowBootstrap"
-          parent="workflowBootstrap">
-        <property name="models">
-            <list>
-                <value>alfresco/extension/model/scWorkflowModel.xml</value>
-            </list>
-        </property>
-    </bean>
-    
-	<!-- Registration of resource bundles -->
-	<bean id="parallel.workflowBootstrap"
-          parent="workflowDeployer">
-        <!-- 
-		<property name="workflowDefinitions">
-			<list>
-				<props>
-					<prop key="engineId">jbpm</prop>
-					<prop key="location">alfresco/extension/workflows/publish-whitepaper/processdefinition.xml</prop>
-					<prop key="mimetype">text/xml</prop>
-					<prop key="redeploy">true</prop>
-				</props>
-			</list>
-		</property>
-		-->
-        <property name="labels">
-                <list>
-                <value>alfresco.extension.scWorkflow</value>
-            </list>
-        </property>
-    </bean>
- 
-    <bean id='permissionsModelDAO' class="org.alfresco.repo.security.permissions.impl.model.PermissionModel">
-        <property name="model">
-            <value>alfresco/extension/model/scPermissionDefinitions.xml</value>
-        </property>
-        <!-- purposefully using lower-case beans -->
-        <property name="nodeService">
-            <ref bean="nodeService" />
-        </property>
-        <property name="dictionaryService">
-            <ref bean="dictionaryService" />
-        </property>
-    </bean>
-    
 </beans>
