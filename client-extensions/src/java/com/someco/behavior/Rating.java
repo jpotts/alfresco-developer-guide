@@ -7,8 +7,6 @@ import org.alfresco.repo.policy.Behaviour;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
 import org.alfresco.repo.policy.Behaviour.NotificationFrequency;
-import org.alfresco.repo.security.authentication.AuthenticationUtil;
-import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
@@ -69,11 +67,6 @@ public class Rating
 		NodeRef parentRef = childAssocRef.getParentRef();
 		NodeRef childRef = childAssocRef.getChildRef();
 		
-		if (!nodeService.exists(parentRef) || !nodeService.exists(childRef)) {
-			logger.debug("One of the nodes no longer exists.");
-			return;
-		}
-		
 		// check the parent to make sure it has the right aspect
 		if (nodeService.hasAspect(parentRef, SomeCoModel.ASPECT_SC_RATEABLE)) {
 			// continue, this is what we want
@@ -95,28 +88,17 @@ public class Rating
 		count = count + 1;
 		average = total / new Double(count);
 		
-		setParentProperties(parentRef, average, total, count);
+		// store the average on the parent node
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_AVERAGE_RATING, average);
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_TOTAL_RATING, total);
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_RATING_COUNT, count);		
+		
+		if (logger.isDebugEnabled()) logger.debug("Property set");
 		
 		return;
 
 	}
 
-	protected void setParentProperties(final NodeRef parentRef, final Double average, final int total, final int count) {
-		AuthenticationUtil.runAs(new RunAsWork<String>() {
-			@SuppressWarnings("synthetic-access")
-			public String doWork() throws Exception {
-				// store the average on the parent node
-				nodeService.setProperty(parentRef, SomeCoModel.PROP_AVERAGE_RATING, average);
-				nodeService.setProperty(parentRef, SomeCoModel.PROP_TOTAL_RATING, total);
-				nodeService.setProperty(parentRef, SomeCoModel.PROP_RATING_COUNT, count);		
-		
-				if (logger.isDebugEnabled()) logger.debug("Property set");
-				return "";
-			}
-		},
-		"admin");
-	}
-	
 	/**
 	 * This method is used to do a full recalculation of the average by iterating over all
 	 * ratings.
@@ -146,11 +128,6 @@ public class Rating
 			// iterate through the children to compute the total
 			
 			for (ChildAssociationRef child : children) {
-				if (!nodeService.exists(child.getChildRef())) {
-					logger.debug("Child node no longer exists.");
-					continue;
-				}
-
 				int rating = (Integer)nodeService.getProperty(child.getChildRef(), SomeCoModel.PROP_RATING);
 				total += rating;
 			}
@@ -161,7 +138,10 @@ public class Rating
 			if (logger.isDebugEnabled()) logger.debug("Computed average:" + average);			
 		}
 		
-		setParentProperties(parentRef, average, total, children.size());
+		// store the average on the parent node
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_AVERAGE_RATING, average);
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_TOTAL_RATING, total);
+		nodeService.setProperty(parentRef, SomeCoModel.PROP_RATING_COUNT, children.size());		
 		
 		if (logger.isDebugEnabled()) logger.debug("Property set");
 		
@@ -181,7 +161,6 @@ public class Rating
 	public PolicyComponent getPolicyComponent() {
 		return policyComponent;
 	}
-
 
 	public void setPolicyComponent(PolicyComponent policyComponent) {
 		this.policyComponent = policyComponent;
