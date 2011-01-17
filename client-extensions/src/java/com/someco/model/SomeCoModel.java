@@ -14,7 +14,6 @@ public interface SomeCoModel {
     public static final QName TYPE_SC_HR_POLICY = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "hrPolicy");
     public static final QName TYPE_SC_OPS_DOC = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "opsDoc");    
     public static final QName TYPE_SC_RATING = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "rating");
-	public static final QName TYPE_SC_RESUME = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "resume");
 	
     // Aspects
 	public static final String ASPECT_SC_WEBABLE_STRING = "webable";
@@ -36,8 +35,6 @@ public interface SomeCoModel {
     public static final QName PROP_AVERAGE_RATING= QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "averageRating");
     public static final QName PROP_TOTAL_RATING= QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "totalRating");
     public static final QName PROP_RATING_COUNT= QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "ratingCount");
-    public static final QName PROP_CANDIDATE_NAME = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "candidateName");
-    public static final QName PROP_CANDIDATE_ROLE = QName.createQName(SomeCoModel.NAMESPACE_SOMECO_CONTENT_MODEL, "candidateRole");
     
     // Associations
     public static final String ASSN_RELATED_DOCUMENTS_STRING = "relatedDocuments";
