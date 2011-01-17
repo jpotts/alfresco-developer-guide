@@ -1,5 +1,6 @@
 package com.someco.scripts;
 
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,8 +11,9 @@ import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.namespace.QName;
+import org.alfresco.web.scripts.Cache;
 import org.alfresco.web.scripts.WebScriptRequest;
-import org.alfresco.web.scripts.WebScriptStatus;
+import org.alfresco.web.scripts.Status;
 import org.apache.log4j.Logger;
 
 import com.someco.model.SomeCoModel;
@@ -31,7 +33,7 @@ public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
 	private RatingService ratingService; // See "Refactoring" topic in the Chapter
 
 	@Override
-	protected Map<String, Object> executeImpl(WebScriptRequest req, WebScriptStatus status) {
+	protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache) {
 		int ratingValue = -1;
 		String id =	req.getParameter("id");
 		String rating = req.getParameter("rating");
