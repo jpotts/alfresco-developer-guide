@@ -2,6 +2,9 @@
 <!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
 
 <beans>
+	<!-- Preferred method in Alfresco 3.1 is to add the administrator users to the ALFRESCO_ADMINISTRATORS
+		 group instead of adding them here. -->
+	<!-- 
 	<bean id="authorityService" class="org.alfresco.repo.security.authority.AuthorityServiceImpl">
 		<property name="authenticationComponent">
 			<ref bean="authenticationComponent" />
@@ -26,4 +29,5 @@
 			</set>
         </property>		
 	</bean>
+	-->
 </beans>
