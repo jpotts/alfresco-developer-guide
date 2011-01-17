@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    
+    <!-- 
+          Chaining of both the services and components 
+
+          Service:
+
+          The example configs provide the following service beans that may be chained
+               authenticationServiceImplLDAP
+               authenticationServiceImplJAAS
+               authenticationServiceImplNTLM
+               authenticationServiceImplAlfresco
+
+          All can go in the authenticationServices property.
+          Only authenticationServiceImplAlfresco can appear in the optional mutableAuthenticationService property.
+    -->
+ 
+    
+    <bean id="authenticationService" class="org.alfresco.repo.security.authentication.ChainingAuthenticationServiceImpl">
+        <property name="authenticationServices">
+            <list>
+                <ref bean="authenticationServiceImplLDAP"/>
+            </list>
+        </property>
+        <property name="mutableAuthenticationService">
+            <ref bean="authenticationServiceImplAlfresco"/>
+        </property>
+        <property name="sysAdminCache">
+            <ref bean="sysAdminCache"/>
+        </property>
+    </bean>
+    
+    <!--
+         Chaining authentication component
+
+         The components that match the services should appear in the same order here as in the authenticationService bean.
+
+         The ntlmMode property is optional. If unset it will report back and use the first component in the list that
+         supports NTLM authentication in any form.  If no component supports any mode, NTLM authentication will not be available.
+         If a value is set, the first component that supports that particular mode will be used.  
+         If no component supports the mode, NTLM authentication will not be available. 
+
+         NTLM can only have one try, so it can not chain. It can only pick one.
+         For single sign on, take care to make sure that NTLM config matches that for the filters.
+
+         The chaining samples provide the follwing authentication component beans which cna be chained
+             authenticationComponentImplLDAP
+             authenticationComponentImplJAAS
+             authenticationComponentImplNTLM
+             authenticationComponentImplAlfresco
+
+          All can go in the authenticationComponents property.
+          Only authenticationServiceImplAlfresco can appear in the optional mutableAuthenticationComponent property.
+    -->
+
+    <bean id="authenticationComponent" class="org.alfresco.repo.security.authentication.ChainingAuthenticationComponentImpl">
+	<property name="authenticationComponents">
+            <list>
+                <ref bean="authenticationComponentImplLDAP"/>
+            </list>
+        </property>
+        <property name="mutableAuthenticationComponent">
+            <ref bean="authenticationComponentImplAlfresco"/>
+        </property>
+    </bean>
+    
+</beans>

@@ -41,56 +41,17 @@
 
 	<target name="package-web" depends="setup, package-jar" description="Creates a zip called ${package.file.zip} which can be unzipped on top of an exploded Alfresco web app">
 		<delete file="${package.file.zip}" />
-		<antcall target="package-web-common" />
-		<antcall target="package-web-community" />
-		<antcall target="package-web-enterprise" />
-	</target>
-			
-	<target name="package-web-common">
 		<zip destfile="${package.file.zip}" update="true">
 			<zipfileset file="${package.file.jar}" prefix="WEB-INF/lib" />
+			<zipfileset dir="${web.dir}" />
 		</zip>
 	</target>
-	
-	<target name="package-web-community" if="alfresco.flavor.community">
-		<echo>Adding COMMUNITY-specific extension files</echo>
-		<zip destfile="${package.file.zip}" update="true">
-			<zipfileset dir="${web.dir}/community" />
-		</zip>
-	</target>
-	
-	<target name="package-web-enterprise" unless="alfresco.flavor.community">
-		<echo>Adding ENTERPRISE-specific extension files</echo>
-		<zip destfile="${package.file.zip}" update="true">
-			<zipfileset dir="${web.dir}/enterprise" />
-		</zip>
-	</target>
-				
+			
 	<target name="package-shared" depends="setup" description="Creates a zip called ${package.file.shared.zip} which can be unzipped on top of the Tomcat shared/classes directory">
 		<delete file="${package.file.shared.zip}" />
-		<antcall target="package-shared-common" />
-		<antcall target="package-shared-community" />
-		<antcall target="package-shared-enterprise" />
-	</target>
-		
-	<target name="package-shared-common">
 		<zip destfile="${package.file.shared.zip}" update="true">
 			<zipfileset dir="${config.dir}/${extension.dir}" prefix="${extension.dir}" />
 		</zip>		
-	</target>
-		
-	<target name="package-shared-community" if="alfresco.flavor.community">
-		<echo>Adding COMMUNITY-specific shared extension files</echo>
-		<zip destfile="${package.file.shared.zip}" update="true">
-			<zipfileset dir="${config.dir}/community/${extension.dir}" prefix="${extension.dir}" />
-		</zip>
-	</target>
-		
-	<target name="package-shared-enterprise" unless="alfresco.flavor.community">
-		<echo>Adding ENTERPRISE-specific shared extension files</echo>
-		<zip destfile="${package.file.shared.zip}" update="true">
-			<zipfileset dir="${config.dir}/enterprise/${extension.dir}" prefix="${extension.dir}" /> 
-		</zip>
 	</target>
 
 	<target name="deploy" depends="deploy-shared,deploy-web" description="Deploys shared and web files">

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    
+    <!-- 
+         This example file provides the beans to wire up LDAP as part of chaining authentication 
+         It uses the same properties as the basic LDAP authentication example. 
+
+         It may be used as a template to define the beans to chain together several LDAP backends.
+         To do this, it is suggested we use bean names like:
+             authenticationServiceImplLDAP_1
+             authenticationDaoImplLDAP_1
+             authenticationComponentImplLDAP_1
+             authenticationComponentImplLDAP_1
+         ... in each LDAP chainign config file
+             chaining-ldap-authentication-1-context.xml
+
+         It is also likely that you want to load the specific config out of specific files, or one super file for all. 
+             classpath:alfresco/extension/chaining-ldap-authentication-1.properties
+         You probably want some properties to be unique so will have to change variables and where they are wired up
+         for each LDAP server config.
+             ${ldap.authentication.java.naming.provider.url.1}
+         etc etc
+
+         You do not have to duplicate the no action dao bean.
+    -->
+
+    <bean id="authenticationServiceImplLDAP" class="org.alfresco.repo.security.authentication.AuthenticationServiceImpl">
+        <property name="authenticationDao">
+            <ref bean="authenticationDaoImplLDAP" />
+        </property>
+        <property name="ticketComponent">
+            <ref bean="ticketComponent" />
+        </property>
+        <property name="authenticationComponent">
+            <ref bean="authenticationComponentImplLDAP" />
+        </property>
+        <property name="sysAdminCache">
+            <ref bean="sysAdminCache"/>
+        </property>
+    </bean>
+
+    <bean name="ldapAuthenticationPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders">
+            <value>true</value>
+        </property>  
+        <property name="locations">
+            <value>classpath:alfresco/extension/ldap-authentication.properties</value>
+        </property>
+    </bean>
+    
+    <bean id="authenticationDaoImplLDAP" class="org.alfresco.repo.security.authentication.DefaultMutableAuthenticationDao" >
+        <property name="allowSetEnabled" value="true" />
+        <property name="allowGetEnabled" value="true" />
+        <property name="allowDeleteUser" value="true" />
+        <property name="allowCreateUser" value="true" />
+    </bean>
+
+    
+    <bean id="authenticationComponentImplLDAP"
+          class="org.alfresco.repo.security.authentication.ldap.LDAPAuthenticationComponentImpl" 
+          parent="authenticationComponentBase">
+        <property name="LDAPInitialDirContextFactory">
+            <ref bean="ldapInitialDirContextFactoryChaining"/>
+        </property>
+        <property name="userNameFormat">
+            <!--
+            
+            This maps between what the user types in and what is passed through to the underlying LDAP authentication.
+            
+            "%s" - the user id is passed through without modification.
+            Used for LDAP authentication such as DIGEST-MD5, anything that is not "simple".
+            
+            "cn=%s,ou=London,dc=company,dc=com" - If the user types in "Joe Bloggs" the authenticate as "cn=Joe Bloggs,ou=London,dc=company,dc=com" 
+            Usually for simple authentication. Simple authentication always uses the DN for the user.
+            
+            -->
+            <value>${ldap.authentication.userNameFormat}</value>
+        </property>
+        <property name="nodeService">
+            <ref bean="nodeService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+        <property name="transactionService">
+            <ref bean="transactionService" />
+        </property>   
+        <property name="escapeCommasInBind">
+            <value>${ldap.authentication.escapeCommasInBind}</value>
+        </property>
+        <property name="escapeCommasInUid">
+            <value>${ldap.authentication.escapeCommasInUid}</value>
+        </property> 
+    </bean>
+    
+    <!--
+    
+    This bean is used to support general LDAP authentication. It is also used to provide read only access to users and groups
+    to pull them out of the LDAP reopsitory
+    
+    -->
+    
+    <bean id="ldapInitialDirContextFactoryChaining" 
+          class="org.alfresco.repo.security.authentication.ldap.LDAPInitialDirContextFactoryImpl">
+        <property name="initialDirContextEnvironment">
+            <map>
+                <!-- The LDAP provider -->
+                <entry key="java.naming.factory.initial">
+                    <value>${ldap.authentication.java.naming.factory.initial}</value>
+                </entry>
+                
+                <!-- The url to the LDAP server -->
+                <!-- Note you can use space separated urls - they will be tried in turn until one works -->
+                <!-- This could be used to authenticate against one or more ldap servers (you will not know which one ....) -->
+                <entry key="java.naming.provider.url">
+                    <value>${ldap.authentication.java.naming.provider.url}</value>
+                </entry>
+                
+                <!-- The authentication mechanism to use      -->
+                <!-- Some sasl authentication mechanisms may require a realm to be set -->
+                <!--                java.naming.security.sasl.realm -->
+                <!-- The available options will depend on your LDAP provider -->
+                <entry key="java.naming.security.authentication">
+                    <value>${ldap.authentication.java.naming.security.authentication}</value>
+                </entry>
+                
+                <!-- The id of a user who can read group and user information -->
+                <!-- This does not go through the pattern substitution defined above and is used "as is" -->
+                <entry key="java.naming.security.principal">
+                    <value>${ldap.authentication.java.naming.security.principal}</value>
+                </entry>
+                
+                <!-- The password for the user defined above -->
+                <entry key="java.naming.security.credentials">
+                    <value>${ldap.authentication.java.naming.security.credentials}</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+</beans>
