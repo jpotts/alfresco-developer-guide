@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="scwf:publishWhitepaper" width="760" height="515">
+<root-container name="scwf:publishWhitepaper" width="752" height="477">
   <node name="start" x="8" y="3" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="Submit" x="279" y="2" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="fork1" x="249" y="86" width="200" height="25">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="tr2">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="Marketing Review" x="381" y="136" width="140" height="40">
-    <transition name="approve">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="reject">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="Operations Review" x="232" y="136" width="140" height="40">
-    <transition name="approve">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="reject">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="join1" x="256" y="198" width="200" height="25">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="All Approved" x="287" y="243" width="140" height="40">
-    <transition name="reject">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="Third Party" x="287" y="303" width="140" height="40">
-    <transition name="tr2">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="Third Party Review" x="26" y="302" width="140" height="40">
-    <transition name="approve">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="reject">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
-  <node name="Approved" x="287" y="360" width="140" height="40">
-    <transition name="">
+  <node name="Approved" x="0" y="0" width="132" height="36">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
-  <node name="Revise" x="27" y="137" width="140" height="40">
-    <transition name="submit">
+  <node name="Revise" x="0" y="0" width="132" height="36">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="done">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
-  <node name="end1" x="192" y="433" width="140" height="40"/>
-</process-diagram>
+  <node name="end1" x="0" y="0" width="132" height="36"/>
+</root-container>

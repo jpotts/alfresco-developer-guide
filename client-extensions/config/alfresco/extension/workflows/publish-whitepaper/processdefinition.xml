@@ -95,14 +95,17 @@
 			<action class="com.someco.bpm.ExternalReviewNotification"/>
 		</event>
 
-		<timer name="thirdPartyTimer" duedate="1 minutes" transition="approve">
+		<!-- This will not work in 2.2 Enterprise due to the runas in the next node -->
+		<!-- 
+		<timer name="thirdPartyTimer" duedate="5 minutes" transition="approve">
 			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
 				<script>
 					logger.log("Third-party timer expired...approving");
 				</script>
 			</action>
 		</timer>   		
-
+ 		-->
+ 		
 		<transition name="approve" to="Approved"></transition>
 		<transition name="reject" to="Revise"></transition>
    
