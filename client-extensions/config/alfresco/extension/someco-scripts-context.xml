@@ -17,7 +17,7 @@
         </property>
     </bean>
 	
-	<bean id="webscript.com.someco.avm.deploy.get" class="com.someco.scripts.GetDeploy" parent="webscript">
+	<bean id="webscript.com.someco.avm.deploy.get" class="com.someco.scripts.GetDeploy" parent="webscript" depends-on="AVMService">
     	<property name="avmService">
     		<ref bean="AVMService" />    	
         </property>
@@ -39,7 +39,7 @@
         
     </bean>
 
-	<bean id="webscript.com.someco.avm.release.get" class="com.someco.scripts.GetRelease" parent="webscript">
+	<bean id="webscript.com.someco.avm.release.get" class="com.someco.scripts.GetRelease" parent="webscript" depends-on="AVMService">
     	<property name="avmService">
     		<ref bean="AVMService" />    	
         </property>

@@ -22,7 +22,7 @@ import javax.transaction.UserTransaction;
 import org.alfresco.model.ApplicationModel;
 import org.alfresco.model.ContentModel;
 import org.alfresco.model.ForumModel;
-import org.alfresco.repo.search.impl.lucene.QueryParser;
+import org.alfresco.repo.search.impl.lucene.LuceneQueryParser;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.ContentService;
 import org.alfresco.service.cmr.repository.NodeRef;
@@ -201,7 +201,7 @@ public class InterviewSetupWizard extends BaseWizardBean {
 			UserGroup userGroup = this.userGroups.get(i);
 			String authority = userGroup.getAuthority();
 
-			// if User, email then, else if Group get all members and email them
+			// if User, send email
 			AuthorityType authType = AuthorityType.getAuthorityType(authority);
 			if (authType.equals(AuthorityType.USER)) {
 				if (this.getPersonService().personExists(authority) == true) {
@@ -395,7 +395,7 @@ public class InterviewSetupWizard extends BaseWizardBean {
 	         
 	         if (filterIndex == 0) {
 	            // Use lucene search to retrieve user details
-	            String term = QueryParser.escape(contains.trim());
+	            String term = LuceneQueryParser.escape(contains.trim());
 	            StringBuilder query = new StringBuilder(128);
 	            query.append("@").append(NamespaceService.CONTENT_MODEL_PREFIX).append("\\:firstName:\"*");
 	            query.append(term);

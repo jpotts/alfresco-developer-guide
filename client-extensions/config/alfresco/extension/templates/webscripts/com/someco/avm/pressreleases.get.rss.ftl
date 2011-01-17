@@ -21,6 +21,9 @@
 				<link>http://localhost:8080${url.serviceContext}/api/node/content/${child.nodeRef.storeRef.protocol}/${child.nodeRef.storeRef.identifier}/${child.nodeRef.id}/${child.name?url}</link>
 				<pubDate>${child.properties.modified?datetime}</pubDate>
 				<dc:creator>${child.properties.creator}</dc:creator>
+				<#if child.properties["{http://www.alfresco.org/model/system/1.0}node-dbid"]?exists>
+				     <guid isPermaLink="false">${child.properties["{http://www.alfresco.org/model/system/1.0}node-dbid"]?c}</guid>
+				</#if>
 				<guid isPermaLink="false">${child.properties["sys:node-dbid"]?c}</guid>
 				<description><![CDATA[${pr_doc.press_release.sub_title}]]></description>
 				<content:encoded><![CDATA[${pr_doc.press_release.body}]]></content:encoded>

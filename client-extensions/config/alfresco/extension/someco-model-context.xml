@@ -39,19 +39,5 @@
                 <value>alfresco.extension.scWorkflow</value>
             </list>
         </property>
-    </bean>
- 
-    <bean id='permissionsModelDAO' class="org.alfresco.repo.security.permissions.impl.model.PermissionModel">
-        <property name="model">
-            <value>alfresco/extension/model/scPermissionDefinitions.xml</value>
-        </property>
-        <!-- purposefully using lower-case beans -->
-        <property name="nodeService">
-            <ref bean="nodeService" />
-        </property>
-        <property name="dictionaryService">
-            <ref bean="dictionaryService" />
-        </property>
-    </bean>
-    
+    </bean>    
 </beans>

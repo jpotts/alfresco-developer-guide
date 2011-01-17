@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<process-diagram name="scwf:noApprovalSubmit" width="817" height="545">
+<root-container name="scwf:noApprovalSubmit" width="817" height="545">
   <node name="start" x="1" y="0" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="initialise" x="266" y="0" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="onapprove" x="334" y="202" width="140" height="40">
-    <transition name="launchnow">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="launchpending">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="submitpending" x="604" y="201" width="140" height="40">
-    <transition name="cancel">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
-    <transition name="launch">
+    </edge>
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="submitcancelled" x="605" y="304" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="submitted" x="332" y="292" width="140" height="40">
-    <transition name="">
+    <edge>
       <label x="5" y="-10"/>
-    </transition>
+    </edge>
   </node>
   <node name="end" x="347" y="455" width="140" height="40"/>
-</process-diagram>
+</root-container>
