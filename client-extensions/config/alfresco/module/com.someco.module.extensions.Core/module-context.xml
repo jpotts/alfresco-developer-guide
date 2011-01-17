@@ -63,7 +63,7 @@
     	 any files. In a real project, you'll probably pick either AMP or non-AMP and stick
     	 to it.
      -->
-    <bean id="someco.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+    <bean id="extension.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
         <property name="models">
             <list>
                 <value>alfresco/module/com.someco.module.extensions.Core/model/scModel.xml</value>
