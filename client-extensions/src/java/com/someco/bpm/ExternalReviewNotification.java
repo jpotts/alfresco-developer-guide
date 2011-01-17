@@ -36,8 +36,8 @@ public class ExternalReviewNotification extends JBPMSpringActionHandler {
 		sb.append("You have been assigned to a task named ");
 		sb.append(executionContext.getToken().getNode().getName());
 		sb.append(". Take the appropriate action by clicking one of the links below:\r\n\r\n");
-		List transitionList = executionContext.getNode().getLeavingTransitions();
-		for (Iterator it = transitionList.iterator(); it.hasNext(); ) {
+		List<Transition> transitionList = executionContext.getNode().getLeavingTransitions();
+		for (Iterator<Transition> it = transitionList.iterator(); it.hasNext(); ) {
 			Transition transition = (Transition)it.next();
 			sb.append(transition.getName());
 			sb.append("\r\n");

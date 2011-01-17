@@ -2,6 +2,7 @@
 <!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
 
 <beans>
+	
 	<bean id="authorityService" class="org.alfresco.repo.security.authority.AuthorityServiceImpl">
 		<property name="authenticationComponent">
 			<ref bean="authenticationComponent" />
@@ -18,6 +19,9 @@
 		<property name="permissionServiceSPI">
 			<ref bean="permissionServiceImpl" />
 		</property>
+		<property name="tenantService">
+			<ref bean="tenantService" />
+		</property>
 		<property name="adminUsers">
             <set>
 				<value>admin</value>
@@ -26,4 +30,5 @@
 			</set>
         </property>		
 	</bean>
+ 	
 </beans>
