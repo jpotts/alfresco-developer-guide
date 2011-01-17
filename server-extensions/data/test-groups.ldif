@@ -1,7 +1,0 @@
-dn: cn=Test Group 1,ou=groups,dc=someco,dc=com
-objectClass: top
-objectClass: groupOfUniqueNames
-cn: Test Group 1
-uniqueMember: uid=tuser9,ou=people,dc=someco,dc=com
-uniqueMember: uid=tuser10,ou=people,dc=someco,dc=com
-
