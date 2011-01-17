@@ -79,47 +79,44 @@
    </context-param>
    
 	<!-- cas client filter -->
-	<!-- 
-	<filter>
-		<filter-name>CAS Filter</filter-name>
-		<filter-class>edu.yale.its.tp.cas.client.filter.CASFilter</filter-class>
-		
-		<init-param>
-			<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
-			<param-value>https://jpotts.optaros-laptop.com:8444/cas-server-webapp-3.2.1/login</param-value>
-		</init-param>
-		
-		<init-param>
-			<param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
-			<param-value>https://jpotts.optaros-laptop.com:8444/cas-server-webapp-3.2.1/serviceValidate</param-value>
-		</init-param>
 	
-		<init-param>
-			<param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
-			<param-value>jpotts.optaros-laptop.com:8080</param-value>
-		</init-param>
-	</filter>
+    <filter>
+      <filter-name>CAS Filter</filter-name>
+      <filter-class>edu.yale.its.tp.cas.client.filter.CASFilter</filter-class>
+      <init-param>
+	<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
+	<param-value>https://jpotts.optaros-laptop.com:8444/cas-server-webapp-3.3.3/login</param-value>
+      </init-param>
+      <init-param>
+	<param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
+	<param-value>https://jpotts.optaros-laptop.com:8444/cas-server-webapp-3.3.3/serviceValidate</param-value>
+      </init-param>
+      <init-param>
+	<param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
+	<param-value>jpotts.optaros-laptop.com:8080</param-value>
+      </init-param>
+    </filter>
 	
 	<filter-mapping>
 		<filter-name>CAS Filter</filter-name>
 		<url-pattern>/faces/*</url-pattern>
 	</filter-mapping>
-	 -->
+	
 	<!-- end of cas client filter -->
 	
 	<filter>
 		<filter-name>Authentication Filter</filter-name>
-		
+		<!-- 
 		<filter-class>org.alfresco.web.app.servlet.AuthenticationFilter</filter-class>
+		 -->
 		
-		<!--
 		<filter-class>com.someco.servlets.AuthenticationFilter</filter-class>
-				<init-param>
+		
+		<init-param>
 			<param-name>cas.user.label</param-name>
 			<param-value>edu.yale.its.tp.cas.client.filter.user</param-value>
 		</init-param>
-        -->
-        
+                
 		<!-- For Novell IChain support use the following filter -->
 		<!--
         <filter-class>org.alfresco.web.app.servlet.NovellIChainsHTTPRequestAuthenticationFilter</filter-class>

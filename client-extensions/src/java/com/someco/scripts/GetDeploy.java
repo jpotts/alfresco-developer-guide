@@ -30,10 +30,9 @@ import org.alfresco.service.namespace.QName;
 import org.alfresco.util.GUID;
 import org.alfresco.util.ISO9075;
 import org.alfresco.web.bean.wcm.AVMUtil;
-import org.alfresco.web.scripts.Cache;
 import org.alfresco.web.scripts.DeclarativeWebScript;
-import org.alfresco.web.scripts.Status;
 import org.alfresco.web.scripts.WebScriptRequest;
+import org.alfresco.web.scripts.WebScriptStatus;
 import org.apache.log4j.Logger;
 
 public class GetDeploy extends DeclarativeWebScript {
@@ -52,8 +51,7 @@ public class GetDeploy extends DeclarativeWebScript {
 	private Logger logger = Logger.getLogger(GetDeploy.class);
 	
 	@Override
-	protected Map<String, Object> executeImpl(WebScriptRequest req,
-			Status status, Cache cache) {
+	protected Map<String, Object> executeImpl(WebScriptRequest req, WebScriptStatus status) {
 		// declare the model object we're going to return
 		Map<String, Object> model = new HashMap<String, Object>();
 
@@ -63,7 +61,9 @@ public class GetDeploy extends DeclarativeWebScript {
 		model.put("store", store);
 		
 		if (store == null || store.length() == 0) {
-			status.setCode(Status.STATUS_BAD_REQUEST, "Store is a required parameter.");
+			status.setCode(400);			
+			status.setMessage("Store is a required parameter.");
+			status.setRedirect(true);
 			return model;
 		}
 
@@ -76,7 +76,9 @@ public class GetDeploy extends DeclarativeWebScript {
 	                                     SandboxConstants.PROP_WEB_PROJECT_NODE_REF).getValue(DataTypeDefinition.NODE_REF);
        
 		if (webProjectNodeRef == null || !nodeService.exists(webProjectNodeRef)) {
-			status.setCode(Status.STATUS_BAD_REQUEST, "Web project does not exist.");
+			status.setCode(500);			
+			status.setMessage("Web project does not exist.");
+			status.setRedirect(true);
 			return model;			
 		}
 		
@@ -87,7 +89,9 @@ public class GetDeploy extends DeclarativeWebScript {
 		if (allocServerList.isEmpty()) {
 			List<NodeRef> serverList = findDeployToServers(webProjectNodeRef, null);
 			if (serverList.isEmpty()) {
-				status.setCode(Status.STATUS_BAD_REQUEST, "No test servers are available.");
+				status.setCode(500);			
+				status.setMessage("No test servers are available.");
+				status.setRedirect(true);
 				return model;
 	        }
 			serverRef = serverList.get(0);
