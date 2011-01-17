@@ -1,0 +1,14 @@
+dn: dc=someco,dc=com
+objectClass: domain
+objectClass: top
+dc: someco
+
+dn: ou=people,dc=someco,dc=com
+ou: people
+description: All people in organization
+objectClass: organizationalUnit
+
+dn: ou=groups,dc=someco,dc=com
+ou: groups
+description: All groups in organization
+objectClass: organizationalUnit

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SomeCo Server Extensions" default="deploy" basedir=".">
+	<property file="build.properties" />
+
+	<property name="project.dir" value="." />
+	<property name="build.dir" value="${project.dir}/build" />
+	<property name="bin.dir" value="${project.dir}/bin" />
+	<property name="lib.dir" value="${project.dir}/lib" />
+	<property name="project.name" value="someco-server-extensions" />
+	<property name="package.file.zip" value="${build.dir}/${project.name}.zip" />
+	<property name="package.file.shared.zip" value="${build.dir}/${project.name}-shared.zip" />
+	<property name="package.file.jar" value="${build.dir}/${project.name}.jar" />
+	<property name="project.file.zip" value="${build.dir}/${project.name}-project.zip" />
+	<property name="source.dir" value="${project.dir}/src" />
+	<property name="config.dir" value="${project.dir}/config" />
+	<property name="data.dir" value="${project.dir}/data" />
+	<property name="web.dir" value="${source.dir}/web" />
+	<property name="extension.dir" value="alfresco/extension" />
+	
+	<path id="classpath.server">
+		<fileset dir="${alfresco.sdk.dir}/server" includes="**/*.jar" />
+	</path>
+
+	<path id="classpath.remote">
+		<fileset dir="${alfresco.sdk.dir}/remote" includes="**/*.jar" />
+	</path>	
+
+	<path id="classpath.build">
+	    <fileset dir="${build.dir}" includes="**/*.jar" />
+    </path>
+    
+	<target name="clean" description="Removes all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${bin.dir}" />		
+	</target>
+
+	<target name="setup" description="Creates the ${build.dir} and ${bin.dir} directories">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${bin.dir}" />		
+	</target>
+
+	<target name="package-web" depends="setup, package-jar" description="Creates a zip called ${package.file.zip} which can be unzipped on top of an exploded Alfresco web app">
+		<delete file="${package.file.zip}" />
+		<antcall target="package-web-common" />
+		<antcall target="package-web-community" />
+		<antcall target="package-web-enterprise" />
+	</target>
+			
+	<target name="package-web-common">
+		<zip destfile="${package.file.zip}" update="true">
+			<zipfileset file="${package.file.jar}" prefix="WEB-INF/lib" />
+		</zip>
+	</target>
+	
+	<target name="package-web-community" if="alfresco.flavor.community">
+		<echo>Adding COMMUNITY-specific extension files</echo>
+		<zip destfile="${package.file.zip}" update="true">
+			<zipfileset dir="${web.dir}/community" />
+		</zip>
+	</target>
+	
+	<target name="package-web-enterprise" unless="alfresco.flavor.community">
+		<echo>Adding ENTERPRISE-specific extension files</echo>
+		<zip destfile="${package.file.zip}" update="true">
+			<zipfileset dir="${web.dir}/enterprise" />
+		</zip>
+	</target>
+				
+	<target name="package-shared" depends="setup" description="Creates a zip called ${package.file.shared.zip} which can be unzipped on top of the Tomcat shared/classes directory">
+		<delete file="${package.file.shared.zip}" />
+		<antcall target="package-shared-common" />
+		<antcall target="package-shared-community" />
+		<antcall target="package-shared-enterprise" />
+	</target>
+		
+	<target name="package-shared-common">
+		<zip destfile="${package.file.shared.zip}" update="true">
+			<zipfileset dir="${config.dir}/${extension.dir}" prefix="${extension.dir}" />
+		</zip>		
+	</target>
+		
+	<target name="package-shared-community" if="alfresco.flavor.community">
+		<echo>Adding COMMUNITY-specific shared extension files</echo>
+		<zip destfile="${package.file.shared.zip}" update="true">
+			<zipfileset dir="${config.dir}/community/${extension.dir}" prefix="${extension.dir}" />
+		</zip>
+	</target>
+		
+	<target name="package-shared-enterprise" unless="alfresco.flavor.community">
+		<echo>Adding ENTERPRISE-specific shared extension files</echo>
+		<zip destfile="${package.file.shared.zip}" update="true">
+			<zipfileset dir="${config.dir}/enterprise/${extension.dir}" prefix="${extension.dir}" /> 
+		</zip>
+	</target>
+
+	<target name="deploy" depends="deploy-shared,deploy-web" description="Deploys shared and web files">
+	</target>
+
+	<target name="deploy-shared" depends="package-shared" description="Unzips the ${package.file.shared.zip} into ${alfresco.shared.dir}">
+		<unzip src="${package.file.shared.zip}" dest="${alfresco.shared.dir}" />
+	</target>
+
+	<target name="deploy-web" depends="package-web" description="Unzips the ${package.file.zip} into ${alfresco.web.dir}">
+		<unzip src="${package.file.zip}" dest="${alfresco.web.dir}" />
+	</target>		
+	
+	<target name="zip-project" depends="setup" description="Zips the entire Eclipse project as-is into ${project.file.zip}">
+		<delete file="${project.file.zip}" />
+		<zip destfile="${project.file.zip}">
+			<zipfileset dir="${project.dir}" excludes="build/** bin/**" prefix="${project.name}" />
+		</zip>
+	</target>	
+
+	<target name="compile" description="Compiles src to ${bin.dir}">
+		<mkdir dir="${bin.dir}" />
+		<javac srcdir="${source.dir}/java" destdir="${bin.dir}" source="1.5" target="1.5" debug="on" fork="yes" deprecation="on">
+			<classpath refid="classpath.server"/>
+			<classpath refid="classpath.remote"/>
+		</javac>
+		<!-- copy in non-compiled files like props if needed -->
+		<copy todir="${bin.dir}">
+			<fileset dir="${source.dir}/java" excludes="**/*.java"/>
+		</copy>
+	</target>
+	
+	<target name="package-jar" depends="setup, compile"
+		description="Jars up the compiled classes into ${package.file.jar}">
+			<delete file="${package.file.jar}" />
+			<jar destfile="${package.file.jar}">
+				<fileset dir="${bin.dir}" includes="com/**" />
+				<fileset dir="${bin.dir}" includes="org/**" />				
+			</jar>
+	</target>
+	
+</project>

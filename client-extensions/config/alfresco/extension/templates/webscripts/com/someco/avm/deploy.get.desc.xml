@@ -1,0 +1,8 @@
+<webscript>
+	<shortname>Deploy</shortname>
+	<description>Deploys the user's sandbox to a test server.</description>
+	<url>/someco/deploy?s={store}</url>
+	<format default="xml">extension</format>
+	<authentication>user</authentication>
+	<transaction>none</transaction>
+</webscript>

@@ -1,0 +1,2 @@
+alfresco.sdk.dir=/usr/local/bin/alfresco-community-2.9-sdk/lib
+alfresco.web.dir=/usr/local/bin/apache/apache-tomcat-5.5.17/webapps/alfresco

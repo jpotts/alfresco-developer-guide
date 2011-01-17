@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<title>White papers - Someco</title>
+	<meta name="description" content="Web applications assembled from open source software for business agility" />
+	<meta name="keywords" content="open source, open source software, ecommerce software, ecommerce solution, media widget, ecommerce consulting, ecommerce marketing strategy, content syndication" />
+
+	<style type="text/css" media="all">@import "someco/css/reset.css";</style>
+	<style type="text/css" media="all">@import "someco/css/global.css";</style>
+	<style type="text/css" media="all">@import "someco/css/tabs.css";</style>	
+	<style type="text/css" media="all">@import "someco/css/style.css";</style>
+
+	<!--[if IE 6]>
+		<link rel="stylesheet" type="text/css" href="css/iespecific.css" />
+	<![endif]-->
+
+	<!-- Add YUI JavaScript libraries -->
+	<script type="text/javascript" src="someco/yui/build/yahoo/yahoo-min.js" ></script>
+	<script type="text/javascript" src="someco/yui/build/event/event-min.js"></script>
+	<script type="text/javascript" src="someco/yui/build/json/json-min.js"></script>
+	<script type="text/javascript" src="someco/yui/build/connection/connection-min.js"></script>
+	<script type="text/javascript" src="someco/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+	<script type="text/javascript" src="someco/yui/build/element/element-beta-min.js"></script>
+	
+	<!-- Add custom javascript -->
+	<script type="text/javascript" src="someco/javascript/rating-script-web-site.js"></script>
+	<script type="text/javascript" src="someco/javascript/whitepapers.js"></script>
+
+	<script type="text/javascript">
+		function init() {
+			getWhitepapers("http://localhost:8080/alfresco/service/someco/whitepapers?guest=true");
+		}
+		YAHOO.util.Event.onDOMReady(init);
+	</script>
+</head>
+<body>
+	<div id="utilsNavContainer">
+		<div id="utils">
+			<div class="f-left">
+				<ul>
+					<li><a href="http://www.optaros.com/" class="selected">home</a></li>
+					<li><a href="http://www.eosdirectory.com" target="_blank">EOS Directory</a></li>
+				</ul>
+			</div><!-- .f-left -->
+			<div class="f-right">
+				<div id="login"></div><!-- #login -->
+			</div><!-- .f-right -->
+		</div><!-- #utils -->
+	</div><!--  #utilsNavContainer -->
+	<div id="pageContainer">
+		<div id="mh">
+			<div id="mhLeft">
+				<a href="/"><img src="someco/images/someco-logo-two-rows.png" alt="Home" /></a>
+			</div>
+			<div id="mhRight">
+				<div id="navContainer">
+					<div class="navColumn one">
+						<h2>Solutions</h2>
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/clients" title="Clients">Clients</a></li>
+							<li><a href="http://www.optaros.com/clients/swisscom-mobile-labs" title="Case Studies ">Case Studies </a></li>
+							<li><a href="http://www.optaros.com/industry-solutions" title="Industry Solutions ">Industry Solutions</a></li>
+						</ul>
+					</div>
+					<div class="navColumn two">
+						<h2>Approach</h2>
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/user-experience">User Experience</a></li>
+							<li><a href="http://www.optaros.com/assembly-methodology">Assembly Methodology</a></li>
+						</ul>
+					</div>
+					<div class="navColumn three">
+						<h2>Expertise</h2>
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/next-generation-internet" title="Next Generation Internet">Next Generation Internet</a></li>
+							<li><a href="http://www.optaros.com/open-source/partners" title="Open Source/Partners">Open Source/Partners</a></li>
+							<li><a href="http://www.optaros.com/blogs" title="More...">More...</a></li>
+						</ul>
+					</div>
+					<div class="navColumn four">
+						<h2>Company</h2>
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/people-careers" title="People &amp; Careers">People &amp; Careers</a></li>
+							<li><a href="http://www.optaros.com/about-us" title="About Us">About Us</a></li>
+							<li class="selected"><a href="http://www.optaros.com/news/white-papers-reports" title="News, Events &amp; Publications" class="active">News, Events &amp; Pubs</a></li>
+						</ul>
+					</div>
+					<div class="navColumn five">
+						<h2>Search</h2>
+						<div id="top_search">
+						<form action="/search/node"  accept-charset="UTF-8" method="post" id="search-theme-form">
+							<div>
+								<input type="text" maxlength="128" name="search_theme_form_keys" id="edit-search_theme_form_keys"  size="5" value="" title="Enter the terms you wish to search for." class="form-text" />
+								<input type="submit" name="op" value="Go"  />
+								<input type="hidden" name="form_id" id="edit-search-theme-form" value="search_theme_form" />
+								<input type="hidden" name="form_token" id="a-unique-id" value="71719ff8d2fda7ce4d7772757f671dcf" />
+							</div>
+						</form>
+						</div>
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/offices/us-corporate-headquarters" title="Locations &amp; Contact">Locations &amp; Contact</a></li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"></div>
+			</div><!-- #mhRight -->
+			<div class="clearfix"></div>
+		</div><!-- #mh -->
+		<div id="bdPage">
+			<div class="clearfix"></div>
+			<div id="featureContainer">
+				<div>
+					<h1 id="pageTitle">News, Events &amp; Pubs</h1>
+					<!-- DOWNLOAD LINK GOES HERE -->
+					<div id="topFiles"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div id="featureContent">
+				<div id="featureFooter">
+					<div id="sidebar-left">
+						<ul class="menu">
+							<li><a href="http://www.optaros.com/news/articles">Articles</a></li>
+							<li><a href="http://www.optaros.com/news/presentations">Presentations</a></li>
+							<li><a href="http://www.optaros.com/news/press-releases">Press Releases</a></li>
+							<li><a href="http://www.optaros.com/news/recorded-webinars">Recorded Webinars</a></li>
+							<li><a href="http://www.optaros.com/news/upcoming-events">Upcoming Events</a></li>
+							<li><a href="http://www.optaros.com/news/white-papers-reports" class="active">White Papers &amp; Reports</a></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div id="mainContent" class="fifty-fifty news">
+						<div class="content-left">
+							<div id="tertiaryMenu">
+								<div class="archive-dropdown" id="select-years">
+									<h3></h3>
+									<div class="float-right">
+										<form name="year_form" action="" method="post">
+											<label>Archives</label>
+											<select onchange="document.year_form.submit()" name="year">
+												<option value="" selected>- year -</option>
+												<option value="2008"  >2008</option>
+												<option value="2007"  >2007</option>
+												<option value="2006"  >2006</option>
+												<option value="2005"  >2005</option>
+												<option value="2004"  >2004</option>
+											</select>
+										</form>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="clearfix"></div>
+								<div id="arrowMenu">
+									<!-- WHITEPAPERS LIST GOES HERE -->
+									<ul id="whitepapers-menu" class="menu"></ul>
+								</div>
+							</div><!-- #tertiaryMenu -->
+						</div>
+						<!-- DETAILED DESCRIPTION GOES HERE -->
+						<div id="newsContent" class="content-right"></div>
+					</div><!-- #mainContent -->
+					<div class="clearfix"></div>
+				</div><!-- #featureFooter -->
+			</div>
+		</div><!-- #bdPage -->
+	</div><!-- #page-container -->
+	<div id="ft">
+		<ul class="footerText">
+		    <li><a href="http://www.optaros.com/sitemap" class="link">Site map</a></li>
+		    <li>|</li> 
+		    <li><a href="http://www.optaros.com/terms" class="link">Terms of Use</a></li>
+		    <li>|</li>
+		    <li><a href="http://www.optaros.com/privacy" class="link">Privacy Policy</a></li>
+	    </ul>
+	</div>
+</body>
+</html>

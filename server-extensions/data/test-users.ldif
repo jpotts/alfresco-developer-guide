@@ -1,0 +1,67 @@
+dn: uid=tuser7,ou=people,dc=someco,dc=com
+cn: Test User7
+sn: User7
+givenName: Test
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+ou: People
+l: Dallas
+uid: tuser7
+mail: tuser7@localhost
+telephonenumber: +1 972 555 1212
+facsimiletelephonenumber: +1 972 555 1313
+roomnumber: 111
+userpassword: password
+
+dn: uid=tuser8,ou=people,dc=someco,dc=com
+cn: Test User8
+sn: User8
+givenName: Test
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+ou: People
+l: Dallas
+uid: tuser8
+mail: tuser8@localhost
+telephonenumber: +1 972 555 1212
+facsimiletelephonenumber: +1 972 555 1313
+roomnumber: 111
+userpassword: password
+
+dn: uid=tuser9,ou=people,dc=someco,dc=com
+cn: Test User9
+sn: User9
+givenName: Test
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+ou: People
+l: Dallas
+uid: tuser9
+mail: tuser9@localhost
+telephonenumber: +1 972 555 1212
+facsimiletelephonenumber: +1 972 555 1313
+roomnumber: 111
+userpassword: password
+
+dn: uid=tuser10,ou=people,dc=someco,dc=com
+cn: Test User10
+sn: User10
+givenName: Test
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+ou: People
+l: Dallas
+uid: tuser10
+mail: tuser10@localhost
+telephonenumber: +1 972 555 1212
+facsimiletelephonenumber: +1 972 555 1313
+roomnumber: 111
+userpassword: password

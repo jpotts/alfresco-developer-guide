@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+	<bean id="policyLogger" class="com.someco.behavior.PolicyLogger" init-method="init" depends-on="someco.dictionaryBootstrap">
+        <property name="policyComponent">
+            <ref bean="policyComponent" />
+        </property>
+    </bean>
+	 
+    <bean id="onUpdateHrDoc" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onUpdateNode</value>
+        </property>
+        <property name="className">
+            <value>{http://www.someco.com/model/content/1.0}hrDoc</value>
+        </property>
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.ScriptBehaviour" parent="scriptBehaviour">
+                        <property name="location">
+                                <bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+                                <constructor-arg>
+	                                <value>alfresco/extension/scripts/onUpdateNode.js</value>
+								</constructor-arg>
+                            	</bean>
+                        </property>
+           </bean>
+        </property>
+    </bean>
+
+	<bean id="ratingBehavior" class="com.someco.behavior.Rating" init-method="init">
+        <property name="nodeService">
+            <ref bean="NodeService" />
+        </property>
+        <property name="policyComponent">
+            <ref bean="policyComponent" />
+        </property>
+        <property name="transactionService">
+        	<ref bean="TransactionService" />
+        </property>
+    </bean>
+	
+	<!-- Use either the Java approach or the JavaScript approach, but not both -->
+	<!-- 
+    <bean id="onCreateRatingNode" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onCreateNode</value>
+        </property>
+        <property name="className">
+            <value>{http://www.someco.com/model/content/1.0}rating</value>
+        </property>
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.ScriptBehaviour" parent="scriptBehaviour">
+                        <property name="location">
+                                <bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+                                <constructor-arg>
+	                                <value>alfresco/extension/scripts/onCreateRating.js</value>
+								</constructor-arg>
+                            	</bean>
+                        </property>
+           </bean>
+        </property>
+    </bean>    
+	<bean id="onDeleteRatingNode" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onDeleteNode</value>
+        </property>
+        <property name="className">
+            <value>{http://www.someco.com/model/content/1.0}rating</value>
+        </property>
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.ScriptBehaviour" parent="scriptBehaviour">
+                        <property name="location">
+                                <bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+                                <constructor-arg>
+	                                <value>alfresco/extension/scripts/onDeleteRating.js</value>
+								</constructor-arg>
+                            	</bean>
+                        </property>
+           </bean>
+        </property>
+    </bean>
+    -->
+</beans>

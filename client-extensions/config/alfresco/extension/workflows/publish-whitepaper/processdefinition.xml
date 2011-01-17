@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.1" name="scwf:publishWhitepaper">
+	<swimlane name="initiator" />
+
+	<swimlane name="marketing">
+		<assignment class="org.alfresco.repo.workflow.jbpm.AlfrescoAssignment">
+			<pooledactors>#{people.getGroup('GROUP_marketing')}</pooledactors>
+		</assignment>
+	</swimlane>
+	
+	<swimlane name="operations">		
+		<assignment class="org.alfresco.repo.workflow.jbpm.AlfrescoAssignment">
+			<pooledactors>#{people.getGroup('GROUP_operations')}</pooledactors>
+		</assignment>
+	</swimlane>
+
+	<start-state name="start">
+		<task name="scwf:submitReviewTask" swimlane="initiator" />
+		<transition name="" to="Submit"></transition>
+	</start-state>
+   
+	<node name="Submit">
+		<event type="node-enter">
+			<script>
+				<variable name="approveCount" access="read,write"/>
+				<expression>
+					approveCount = 0;
+				</expression>
+			</script>
+		</event>
+		<transition name="" to="fork1"></transition>
+	</node>
+
+	<fork name="fork1">
+		<transition name="" to="Marketing Review"></transition>
+		<transition name="tr2" to="Operations Review"></transition>
+	</fork>
+
+	<task-node name="Marketing Review">
+		<task name="scwf:marketingReview" swimlane="marketing" />
+		<transition name="approve" to="join1">
+			<script>
+				<variable name="approveCount" access="read,write"/>
+				<expression>
+	      			approveCount = approveCount + 1;
+				</expression>
+			</script>
+		</transition>
+		<transition name="reject" to="join1"></transition>
+	</task-node>
+   
+	<task-node name="Operations Review">
+
+		<task name="scwf:operationsReview" swimlane="operations" />
+
+		<transition name="approve" to="join1">
+			<script>
+				<variable name="approveCount" access="read,write"/>
+				<expression>
+		      		approveCount = approveCount + 1;
+				</expression>
+			</script>      
+		</transition>
+		<transition name="reject" to="join1"></transition>
+	</task-node>
+
+	<join name="join1">
+		<transition name="" to="All Approved"></transition>
+	</join>
+   
+	<decision name="All Approved">
+		<transition name="reject" to="Revise"></transition>
+		<transition name="" to="Third Party">
+			<condition>#{approveCount == 2}</condition>
+		</transition>
+	</decision>
+
+	<decision name="Third Party">
+		<transition name="tr2" to="Approved"></transition>
+		<transition name="" to="Third Party Review">
+			<condition>#{scwf_reviewerEmail!=""}</condition>
+		</transition>
+	</decision>
+   
+	<state name="Third Party Review">
+		<event type="node-enter">
+			<script>
+				<variable name="notificationRecipient" access="read,write" />
+				<variable name="scwf_reviewerEmail" access="read" />
+				<expression>
+					notificationRecipient = scwf_reviewerEmail;
+				</expression>
+			</script>
+			<action class="com.someco.bpm.ExternalReviewNotification"/>
+		</event>
+
+		<timer name="thirdPartyTimer" duedate="1 minutes" transition="approve">
+			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<script>
+					logger.log("Third-party timer expired...approving");
+				</script>
+			</action>
+		</timer>   		
+
+		<transition name="approve" to="Approved"></transition>
+		<transition name="reject" to="Revise"></transition>
+   
+	</state>
+
+	<node name="Approved">
+		<transition name="" to="end1">
+			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<runas>admin</runas>
+				<script>
+					<variable name="bpm_package" access="read" />
+					<expression>
+						var setWebFlagAction = actions.create("set-web-flag");
+						setWebFlagAction.parameters["active"] = true;
+						for (var i = 0; i &lt; bpm_package.children.length; i++) {
+							setWebFlagAction.execute(bpm_package.children[i]);
+						}   		
+					</expression>	
+				</script>
+			</action>
+		</transition>
+	</node>
+   
+	<task-node name="Revise">
+		<task name="scwf:revise" swimlane="initiator"></task>
+		<transition name="submit" to="Submit"></transition>
+		<transition name="done" to="end1"></transition>
+	</task-node>
+
+	<end-state name="end1"></end-state>
+   
+</process-definition>

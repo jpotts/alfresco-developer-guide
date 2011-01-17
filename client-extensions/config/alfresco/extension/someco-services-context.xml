@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+	<bean id="RatingService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces">
+            <list>
+                <value>com.someco.service.RatingService</value>
+            </list>
+        </property>
+        <property name="target">
+            <ref bean="ratingServiceImpl"/>
+        </property>
+ 
+        <property name="interceptorNames">
+            <list>
+                <idref local="RatingService_transaction" />
+                <idref local="RatingService_security" />
+            </list>
+        </property>
+
+	</bean>
+	
+	<bean id="RatingService_transaction" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="delete*">${server.transaction.mode.default}</prop>
+                <prop key="get*">${server.transaction.mode.readOnly}</prop>
+                <prop key="has*">${server.transaction.mode.readOnly}</prop>
+                <prop key="rate*">${server.transaction.mode.default}</prop>                
+                <prop key="*">${server.transaction.mode.default}</prop>
+            </props>
+        </property>
+    </bean>
+	
+	<bean id="RatingService_security" class="net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+		<property name="authenticationManager">
+			<ref bean="authenticationManager"/>
+		</property>
+        <property name="accessDecisionManager">
+        	<ref bean="accessDecisionManager"/>
+        </property>
+        <property name="afterInvocationManager">
+        	<ref bean="afterInvocationManager"/>
+        </property>
+        <property name="objectDefinitionSource">
+            <value>
+				com.someco.service.RatingService.hasRatings=ACL_ALLOW
+				com.someco.service.RatingService.rate=ROLE_AUTHENTICATED
+				com.someco.service.RatingService.deleteRatings=ACL_METHOD.ROLE_ADMINISTRATOR
+				com.someco.service.RatingService.getRatingData=ROLE_AUTHENTICATED
+				com.someco.service.RatingService.getUserRating=ROLE_AUTHENTICATED
+            </value>
+        </property>
+	</bean>
+	
+	<bean id="ratingServiceImpl" class="com.someco.service.RatingServiceImpl" >
+		<property name="nodeService">
+			<ref bean="NodeService" />          
+      </property>
+      <property name="searchService">
+			<ref bean="SearchService" />
+      </property>
+	</bean>
+   
+	<bean id="ratingScript" parent="baseJavaScriptExtension" class="com.someco.jscript.Ratings">
+		<property name="extensionName">
+        	<value>ratings</value>
+		</property>
+		<property name="ratingService">
+			<ref bean="RatingService" />
+		</property>		
+	</bean>
+</beans>

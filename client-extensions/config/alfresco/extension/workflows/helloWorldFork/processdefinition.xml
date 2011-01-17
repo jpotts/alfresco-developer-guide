@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.1"  name="helloWorldFork">
+   <start-state name="start">
+      <transition name="" to="fork1"></transition>
+   </start-state>
+   <end-state name="end1"></end-state>
+   <fork name="fork1">
+      <transition name="transToC" to="Node C"></transition>
+      <transition name="transToD" to="Node D"></transition>
+   </fork>
+   <join name="join1">
+      <transition name="" to="end1"></transition>
+   </join>
+   <node name="Node C">
+      <transition name="" to="join1">
+      			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<script>
+					logger.log("Hello World! From Node C!");
+				</script>
+			</action>
+      </transition>
+   </node>
+   <node name="Node D">
+      <transition name="" to="join1">
+      			<action class="org.alfresco.repo.workflow.jbpm.AlfrescoJavaScript">
+				<script>
+					logger.log("Hello World! From Node D!");
+				</script>
+			</action>
+	</transition>
+   </node>
+</process-definition>
