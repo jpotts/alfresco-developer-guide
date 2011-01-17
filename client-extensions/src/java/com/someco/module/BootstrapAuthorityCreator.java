@@ -75,7 +75,7 @@ public class BootstrapAuthorityCreator {
     		salesGroup = authorityService.getName(AuthorityType.GROUP, "sales");
     	} else {
     		// create the sales group
-    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "sales");
+    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, "sales");
     	}
 
     	//add tuser1 and tuser2 to the sales group
@@ -86,7 +86,7 @@ public class BootstrapAuthorityCreator {
     		marketingGroup = authorityService.getName(AuthorityType.GROUP, "marketing");
     	} else {
     		// create the marketing group
-    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "marketing");
+    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, "marketing");
     	}
 
     	//add tuser3 and tuser4 to the marketing group
