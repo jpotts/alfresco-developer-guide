@@ -1,6 +1,0 @@
-alfresco.sdk.dir=/usr/local/bin/alfresco-community-2.9-sdk/lib
-alfresco.web.dir=/usr/local/bin/apache/apache-tomcat-5.5.17/webapps/alfresco
-alfresco.shared.dir=/usr/local/bin/apache/apache-tomcat-5.5.17/shared/classes
-#Use one or the other to specify which flavor of Alf you are running
-#alfresco.flavor.community=true
-alfresco.flavor.enterprise=true

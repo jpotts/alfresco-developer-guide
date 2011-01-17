@@ -222,7 +222,7 @@
             <action id="web_enable">
 				<permissions>
 					<!-- each permission can be an Allow or Deny check -->
-					<permission allow="true">PortalPublisher</permission>
+					<permission allow="true">Write</permission>
 				</permissions>
 				<evaluator>com.someco.action.evaluator.WebEnableEvaluator</evaluator>
 				<label-id>enableWeb</label-id>
@@ -238,7 +238,7 @@
 			<action id="web_disable">
 				<permissions>
 					<!-- each permission can be an Allow or Deny check -->
-					<permission allow="true">PortalPublisher</permission>
+					<permission allow="true">Write</permission>
 				</permissions>
 				<evaluator>com.someco.action.evaluator.WebDisableEvaluator</evaluator>
 				<label-id>disableWeb</label-id>
@@ -282,10 +282,6 @@
 			<dialog name="executeScript" page="/jsp/extension/dialogs/execute-script.jsp" managed-bean="ExecuteScriptDialog"
                  icon="/someco/images/icons/execute_script_large.gif" title="Execute Script" 
                  description="Executes a script against the selected node" />
-                 
-			<dialog name="submitSandboxItems" page="/jsp/extension/dialogs/submit-dialog.jsp" managed-bean="SubmitDialog"
-                 icon="/images/icons/submit_large.gif" title-id="submit_items_title"
-                 description-id="submit_items_desc" />
 		</dialogs>
 	</config>
 	
@@ -380,38 +376,6 @@
 	<config evaluator="aspect-name" condition="scwf:thirdPartyReviewable">
 		<property-sheet>
 			<show-property name="scwf:reviewerEmail" display-label-id="email" />
-		</property-sheet>
-	</config>
-	
-	<!-- WCM settings -->
-	
-	<config evaluator="node-type" condition="scwf:submitNoApprovalTask" replace="true">
-		<property-sheet>
-			<separator name="sep1" display-label-id="nothing_to_configure" component-generator="HeaderSeparatorGenerator" />
-		</property-sheet>
-	</config>
-	
-	<config evaluator="node-type" condition="scwf:submitCancelledNoApprovalTask" replace="true">
-		<property-sheet>
-			<separator name="sep1" display-label-id="general" component-generator="HeaderSeparatorGenerator" />
-			<show-property name="bpm:taskId" />
-			<show-property name="bpm:description" component-generator="TextAreaGenerator" read-only="true"/>
-			<show-property name="wcmwf:label" read-only="true" />
-			<show-property name="wcmwf:launchDate" read-only="true" />
-			<show-property name="wcmwf:autoDeploy" read-only="true" />
-			<show-property name="bpm:comment" component-generator="TextAreaGenerator" />
-		</property-sheet>
-	</config>
-	
-	<config evaluator="node-type" condition="scwf:submittedNoApprovalTask" replace="true">
-		<property-sheet>
-			<separator name="sep1" display-label-id="general" component-generator="HeaderSeparatorGenerator" />
-			<show-property name="bpm:taskId" />
-			<show-property name="bpm:description" component-generator="TextAreaGenerator" read-only="true"/>
-			<show-property name="wcmwf:label" read-only="true" />
-			<show-property name="wcmwf:launchDate" read-only="true" />
-			<show-property name="wcmwf:autoDeploy" read-only="true" />
-			<show-property name="bpm:comment" component-generator="TextAreaGenerator" />
 		</property-sheet>
 	</config>
 	
