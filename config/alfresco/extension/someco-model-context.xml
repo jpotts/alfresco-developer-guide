@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+    <!-- Registration of new models -->
+    <bean id="someco.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+        <property name="models">
+            <list>
+                <value>alfresco/extension/model/scModel.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="someco.workflowBootstrap"
+          parent="workflowBootstrap">
+        <property name="models">
+            <list>
+                <value>alfresco/extension/model/scWorkflowModel.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+	<!-- Registration of resource bundles -->
+	<bean id="parallel.workflowBootstrap"
+          parent="workflowDeployer">
+        <!-- 
+		<property name="workflowDefinitions">
+			<list>
+				<props>
+					<prop key="engineId">jbpm</prop>
+					<prop key="location">alfresco/extension/workflows/publish-whitepaper/processdefinition.xml</prop>
+					<prop key="mimetype">text/xml</prop>
+					<prop key="redeploy">true</prop>
+				</props>
+			</list>
+		</property>
+		-->
+        <property name="labels">
+                <list>
+                <value>alfresco.extension.scWorkflow</value>
+            </list>
+        </property>
+    </bean>    
+</beans>
