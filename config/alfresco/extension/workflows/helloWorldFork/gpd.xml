@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="helloWorldFork" width="760" height="512">
+  <node name="start" x="131" y="42" width="-1" height="-1">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end1" x="133" y="319" width="140" height="40"/>
+  <node name="fork1" x="102" y="111" width="200" height="25">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="join1" x="104" y="246" width="200" height="25">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Node C" x="41" y="173" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Node D" x="240" y="171" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+</root-container>
