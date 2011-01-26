@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SomeCo Client Extensions ch9" default="deploy" basedir=".">
+	<property file="build.properties" />
+
+	<property name="label" value="ch9" />
+	<property name="project.dir" value="." />
+	<property name="build.dir" value="${project.dir}/build" />
+	<property name="bin.dir" value="${project.dir}/bin" />
+	<property name="lib.dir" value="${project.dir}/lib" />
+	<property name="project.name" value="someco-client-extensions" />
+	<property name="package.file.zip" value="${build.dir}/${project.name}.zip" />
+	<property name="package.file.jar" value="${build.dir}/${project.name}.jar" />
+	<property name="project.file.zip" value="${build.dir}/${project.name}-project-${label}.zip" />
+    <property name="package.file.amp" value="${build.dir}/${project.name}.amp" />
+    <property name="module.id" value="com.someco.module.extensions.Core" />
+    <property name="module.dir" value="/alfresco/module" />
+	<property name="source.dir" value="${project.dir}/src" />
+	<property name="config.dir" value="${project.dir}/config" />
+	<property name="data.dir" value="${project.dir}/data" />
+	<property name="web.dir" value="${source.dir}/web" />
+	<property name="extension.dir" value="/alfresco/extension" />
+	<property name="junit.config.file.jar" value="${build.dir}/junit-config.jar" />
+	
+	<path id="classpath.server">
+		<fileset dir="${alfresco.sdk.dir}/server" includes="**/*.jar" />
+	</path>
+
+	<path id="classpath.remote">
+		<fileset dir="${alfresco.sdk.dir}/remote" includes="**/*.jar" />
+	</path>	
+
+	<path id="classpath.local">
+		<fileset dir="${project.dir}/lib" includes="**/*.jar" />
+	</path>
+
+	<path id="classpath.build">
+	    <fileset dir="${build.dir}" includes="**/*.jar" />
+    </path>
+    
+	<target name="clean" description="Removes all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${bin.dir}" />		
+	</target>
+
+	<target name="clean-tomcat" description="Removes deployed extension directory, lib/someco*.jar, and someco/" >
+		<delete dir="${alfresco.web.dir}/WEB-INF/classes/alfresco/extension" />
+		<delete dir="${alfresco.web.dir}/WEB-INF/classes/alfresco/module" />
+		<delete dir="${alfresco.web.dir}/jsp/extension" />
+		<delete dir="${alfresco.web.dir}/someco" />
+		<delete file="${alfresco.web.dir}/WEB-INF/lib/someco-alfresco.jar" />
+	</target>
+
+	<target name="setup" description="Creates the ${build.dir} and ${bin.dir} directories">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${bin.dir}" />		
+	</target>
+
+	<target name="package-extension" depends="setup, package-jar, package-junit-config-jar" description="Creates a zip called ${package.file.zip} which can be unzipped on top of an exploded Alfresco web app">
+		<delete file="${package.file.zip}" />
+		<zip destfile="${package.file.zip}" update="true">
+			<zipfileset dir="${config.dir}${extension.dir}" prefix="WEB-INF/classes${extension.dir}" />
+			<zipfileset file="${config.dir}/alfresco/web-client-config-wcm.xml" prefix="WEB-INF/classes/alfresco" />
+			<zipfileset file="${package.file.jar}" prefix="WEB-INF/lib" />
+			<zipfileset dir="${lib.dir}" prefix="WEB-INF/lib" />
+			<zipfileset dir="${web.dir}" excludes="META-INF/**" />
+		</zip>
+	</target>
+	
+	<target name="package-amp" depends="setup, package-jar" description="Packages the customizations as an Alfresco module in ${package.file.amp}">
+		<delete file="${package.file.amp}" />
+		<zip destfile="${package.file.amp}">
+			<zipfileset file="${package.file.jar}" prefix="lib" />
+			<zipfileset dir="${web.dir}" prefix="web" />
+			<zipfileset file="${config.dir}${module.dir}/${module.id}/module.properties" />						
+			<zipfileset file="${config.dir}${module.dir}/${module.id}/file-mapping.properties" />
+			<zipfileset file="${config.dir}${module.dir}/${module.id}/module-context.xml" prefix="config${module.dir}/${module.id}" />
+			<zipfileset dir="${data.dir}" prefix="config${module.dir}/${module.id}/bootstrap" />
+			<zipfileset dir="${config.dir}${extension.dir}/model" prefix="config${module.dir}/${module.id}/model" />
+ 	 		<!--<zipfileset file="${config.dir}${extension.dir}/someco-model-context.xml" prefix="config${module.dir}/${module.id}" />-->
+			<zipfileset file="${config.dir}${extension.dir}/web-client-config-custom.xml" prefix="config${module.dir}/${module.id}/ui" />			
+		</zip>
+	</target>
+	
+	<target name="install-amp" depends="package-amp" description="Uses the Alfresco MMT to install the AMP into ${alfresco.war.path}">
+        <java dir="." fork="true" classname="org.alfresco.repo.module.tool.ModuleManagementTool">
+			<classpath refid="classpath.server"/>
+            <arg line="install ${package.file.amp} ${alfresco.war.path} -force -verbose"/>
+        </java>
+    </target>
+    
+    <target name="deploy-amp" depends="install-amp" description="Unzips the AMP'd WAR file into ${alfresco.web.dir}">
+   		<unzip src="${alfresco.war.path}" dest="${alfresco.web.dir}" />
+    </target>
+
+	<target name="deploy" depends="package-extension" description="Unzips the ${package.file.zip} into ${alfresco.web.dir}">
+		<unzip src="${package.file.zip}" dest="${alfresco.web.dir}" />
+	</target>
+
+	<target name="zip-project" depends="setup" description="Zips the entire Eclipse project as-is into ${project.file.zip}">
+		<delete file="${project.file.zip}" />
+		<zip destfile="${project.file.zip}">
+			<zipfileset dir="${project.dir}" excludes="build/** bin/**" prefix="${project.name}-${label}" />
+		</zip>
+	</target>	
+
+	<target name="compile" description="Compiles src to ${bin.dir}">
+		<mkdir dir="${bin.dir}" />
+		<javac srcdir="${source.dir}/java" destdir="${bin.dir}" source="1.5" target="1.5" debug="on" fork="yes" deprecation="on">
+			<classpath refid="classpath.server"/>
+			<classpath refid="classpath.remote"/>
+			<classpath refid="classpath.local"/>			
+		</javac>
+		<!-- copy in non-compiled files like props if needed -->
+		<copy todir="${bin.dir}">
+			<fileset dir="${source.dir}/java" excludes="**/*.java"/>
+		</copy>
+	</target>
+	
+	<target name="package-jar" depends="setup, compile"
+		description="Jars up the compiled classes and ${web.dir}/META-INF into ${package.file.jar}">
+			<delete file="${package.file.jar}" />
+			<jar destfile="${package.file.jar}">
+				<fileset dir="${bin.dir}" includes="com/**" />
+				<fileset dir="${bin.dir}" includes="org/**" />				
+				<zipfileset dir="${web.dir}/META-INF" excludes="*.zip" prefix="META-INF" />				
+			</jar>
+	</target>
+	
+	<target name="package-junit-config-jar" depends="setup"
+		description="Jars up essential context files needed for the junit tests">
+			<delete file="${junit.config.file.jar}" />
+			<jar destfile="${junit.config.file.jar}" >
+				<zipfileset dir="${config.dir}${extension.dir}" includes="model/**, someco-behavior-context.xml, someco-model-context.xml, someco-services-context.xml" prefix="alfresco/extension" />
+			</jar>
+	</target>
+	
+	<target name="data-creator" depends="package-jar" >
+		<java dir="./bin" fork="true" classname="com.someco.examples.SomeCoDataCreator">
+			<classpath refid="classpath.build"/>
+			<classpath refid="classpath.remote"/>
+            <arg line="admin admin /app:company_home/cm:Someco/cm:Marketing/cm:Whitepapers whitepaper whitepaper"/>
+        </java>
+    </target>
+
+	<target name="data-relater" depends="package-jar" description="Run the Someco web services examples">
+		<java dir="./bin" fork="true" classname="com.someco.examples.SomeCoDataRelater">
+			<classpath refid="classpath.build"/>
+			<classpath refid="classpath.remote"/>
+            <arg line="admin admin ${sourceId} ${targetId}"/>
+        </java>
+    </target>
+
+	<target name="data-queries" depends="package-jar" description="Run the Someco web services examples">
+		<java dir="./bin" fork="true" classname="com.someco.examples.SomeCoDataQueries">
+			<classpath refid="classpath.build"/>
+			<classpath refid="classpath.remote"/>
+            <arg line="admin admin /app:company_home/cm:Someco/cm:Marketing/cm:Whitepapers"/>
+        </java>
+    </target>
+
+	<target name="data-cleaner" depends="package-jar" description="Run the Someco web services examples">
+		<java dir="./bin" fork="true" classname="com.someco.examples.SomeCoDataCleaner">
+			<classpath refid="classpath.build"/>
+			<classpath refid="classpath.remote"/>
+            <arg line="admin admin /app:company_home/cm:Someco/cm:Marketing/cm:Whitepapers whitepaper"/>
+        </java>
+    </target>
+	
+</project>
