@@ -1,8 +1,0 @@
-<webscript>
-	<shortname>Release</shortname>
-	<description>Releases a test server, if allocated, back to the pool</description>
-	<url>/someco/release?s={store}</url>
-	<format default="xml">extension</format>
-	<authentication>user</authentication>
-	<transaction>none</transaction>
-</webscript>
