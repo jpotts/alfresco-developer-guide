@@ -1,14 +1,4 @@
-/**
-	At the end of Chapter 6 a RatingService was introduced that is exposed as
-	a root object in JavaScript which deprecates much of this file.
-	
-	This file should now only include logic needed when/if a JavaScript rating behavior
-	is used instead of a Java-based behavior.
-*/
-
-/**
-	This function is used by the JavaScript-based Rating behavior.
-*/
+//calculate rating
 function computeAverage(childAssocRef) {
 		var parentRef = childAssocRef.parent;
 		
@@ -52,10 +42,6 @@ function computeAverage(childAssocRef) {
 
 }
 
-/**
-	Use the rating service instead of this function
-*/
-/*
 function getUserRating(curNode, curUser) {
 	if (curUser == undefined || curUser == "") {
 		logger.log("User name was not passed in");
@@ -75,38 +61,15 @@ function getUserRating(curNode, curUser) {
 		}
 	}
 }
-*/
 
-/**
-	This function has been refactored to leverage the Rating Service.
-*/
-/*
 function getRating(curNode, curUser) {
 	var rating = {};
-*/
-	/*
 	rating.average = curNode.properties["{http://www.someco.com/model/content/1.0}averageRating"];
 	rating.count = curNode.properties["{http://www.someco.com/model/content/1.0}ratingCount"];
 	rating.user = getUserRating(curNode, curUser);
-	*/
-	// Use the factored RatingService instead
-	/*
-	var ratingData = ratings.getRatingData(curNode);
-	logger.log("User rating:" + 
-
-	var ratingData = ratings.getRatingData(curNode);
-
-	rating.average = ratingData.getRating());
-	rating.count = ratingData.getCount());
-	rating.user = ratings.getUserRating(curNode, curUser));
 	return rating;
 }
-*/
 
-/**
-	Use the Rating Service instead of this function
-*/
-/*
 function deleteRatings(curNode) {
 		
 		// check the parent to make sure it has the right aspect
@@ -129,4 +92,3 @@ function deleteRatings(curNode) {
 			}
 		}	
 }
-*/
