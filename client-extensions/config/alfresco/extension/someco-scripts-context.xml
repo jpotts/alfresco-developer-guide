@@ -7,7 +7,7 @@
     		<ref bean="NodeService" />    	
         </property>
     	<property name="ratingService">
-    		<ref bean="RatingService" />    	
+    		<ref bean="SomecoRatingService" />    	
         </property>
     </bean>
 	
