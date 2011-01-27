@@ -17,11 +17,11 @@ if (args.id == null || args.id.length == 0) {
 		logger.log("Setting model rating data");
 		// Use the factored RatingService instead
 		// model.rating = getRating(curNode, args.user);
-		var ratingData = ratings.getRatingData(curNode);
+		var ratingData = scRatings.getRatingData(curNode);
 		var rating = {};
 		rating.average = ratingData.getRating();
 		rating.count = ratingData.getCount();
-		rating.user = ratings.getUserRating(curNode, args.user);
+		rating.user = scRatings.getUserRating(curNode, args.user);
  
 		model.rating = rating;		
 	}

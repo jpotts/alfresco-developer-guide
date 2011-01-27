@@ -7,7 +7,7 @@
     		<ref bean="NodeService" />    	
         </property>
     	<property name="ratingService">
-    		<ref bean="RatingService" />    	
+    		<ref bean="SomecoRatingService" />    	
         </property>
     </bean>
 	
@@ -16,43 +16,4 @@
     		<ref bean="WorkflowService" />    	
         </property>
     </bean>
-	
-	<bean id="webscript.com.someco.avm.deploy.get" class="com.someco.scripts.GetDeploy" parent="webscript">
-    	<property name="avmService">
-    		<ref bean="AVMService" />    	
-        </property>
-        <property name="actionService">
-    		<ref bean="ActionService" />    	
-        </property>
-        <property name="nodeService">
-    		<ref bean="NodeService" />    	
-        </property>
-        <property name="permissionService">
-    		<ref bean="PermissionService" />    	
-        </property>
-        <property name="importerBootstrap">
-    		<ref bean="spacesBootstrap" />    	
-        </property>
-        <property name="searchService">
-    		<ref bean="SearchService" />    	
-        </property>
-        
-    </bean>
-
-	<bean id="webscript.com.someco.avm.release.get" class="com.someco.scripts.GetRelease" parent="webscript">
-    	<property name="avmService">
-    		<ref bean="AVMService" />    	
-        </property>
-        <property name="nodeService">
-    		<ref bean="NodeService" />    	
-        </property>
-        <property name="importerBootstrap">
-    		<ref bean="spacesBootstrap" />    	
-        </property>
-        <property name="searchService">
-    		<ref bean="SearchService" />    	
-        </property>
-        
-    </bean>
-
 </beans>

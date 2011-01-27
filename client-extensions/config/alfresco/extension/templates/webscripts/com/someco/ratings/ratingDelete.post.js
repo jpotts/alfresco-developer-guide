@@ -15,7 +15,7 @@ if (args.id == null || args.id.length == 0) {
 		status.message = "No node found for id:" + args.id;
 		status.redirect = true;
 	} else {
-		ratings.deleteRatings(curNode);
+		scRatings.deleteRatings(curNode);
 		model.id = args.id;
 	}
 }

@@ -4,7 +4,7 @@
 <beans>
 
 	<!-- Create test users and groups -->    
-    <bean id="somecoModuleCore.bootstrapAuthorityCreator" class="com.someco.module.BootstrapAuthorityCreator" init-method="init">
+    <bean id="somecoModuleCore.bootstrapAuthorityCreator" class="com.someco.module.BootstrapAuthorityCreator">
 		<property name="personService">
             <ref bean="personService" />
         </property>
@@ -16,7 +16,10 @@
         </property>        
 		<property name="authenticationService">
             <ref bean="authenticationService" />
-        </property>        
+        </property>
+        <property name="authenticationContext">
+            <ref bean="authenticationContext" />
+        </property>
     </bean>
         
     <!-- Import sample data -->
@@ -63,7 +66,7 @@
     	 any files. In a real project, you'll probably pick either AMP or non-AMP and stick
     	 to it.
      -->
-    <bean id="someco.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+    <bean id="extension.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
         <property name="models">
             <list>
                 <value>alfresco/module/com.someco.module.extensions.Core/model/scModel.xml</value>
