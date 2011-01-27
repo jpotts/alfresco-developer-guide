@@ -21,7 +21,7 @@
 				<link>http://localhost:8080${url.serviceContext}/api/node/content/${child.nodeRef.storeRef.protocol}/${child.nodeRef.storeRef.identifier}/${child.nodeRef.id}/${child.name?url}</link>
 				<pubDate>${child.properties.modified?datetime}</pubDate>
 				<dc:creator>${child.properties.creator}</dc:creator>
-				<guid isPermaLink="false">${child.properties["sys:node-dbid"]?c}</guid>
+				<guid isPermaLink="false">${child.id}</guid>
 				<description><![CDATA[${pr_doc.press_release.sub_title}]]></description>
 				<content:encoded><![CDATA[${pr_doc.press_release.body}]]></content:encoded>
 			</item>

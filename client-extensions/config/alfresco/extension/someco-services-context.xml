@@ -3,7 +3,7 @@
 
 <beans>
 
-	<bean id="RatingService" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<bean id="SomecoRatingService" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="proxyInterfaces">
             <list>
                 <value>com.someco.service.RatingService</value>
@@ -15,14 +15,14 @@
  
         <property name="interceptorNames">
             <list>
-                <idref local="RatingService_transaction" />
-                <idref local="RatingService_security" />
+                <idref local="SomecoRatingService_transaction" />
+                <idref local="SomecoRatingService_security" />
             </list>
         </property>
 
 	</bean>
 	
-	<bean id="RatingService_transaction" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+	<bean id="SomecoRatingService_transaction" class="org.springframework.transaction.interceptor.TransactionInterceptor">
         <property name="transactionManager">
             <ref bean="transactionManager"/>
         </property>
@@ -37,7 +37,7 @@
         </property>
     </bean>
 	
-	<bean id="RatingService_security" class="net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+	<bean id="SomecoRatingService_security" class="net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
 		<property name="authenticationManager">
 			<ref bean="authenticationManager"/>
 		</property>
@@ -67,12 +67,12 @@
       </property>
 	</bean>
    
-	<bean id="ratingScript" parent="baseJavaScriptExtension" class="com.someco.jscript.Ratings">
+	<bean id="somecoRatingScript" parent="baseJavaScriptExtension" class="com.someco.jscript.Ratings">
 		<property name="extensionName">
-        	<value>ratings</value>
+        	<value>scRatings</value>
 		</property>
 		<property name="ratingService">
-			<ref bean="RatingService" />
+			<ref bean="SomecoRatingService" />
 		</property>		
 	</bean>
 </beans>
