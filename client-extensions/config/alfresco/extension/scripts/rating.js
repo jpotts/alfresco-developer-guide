@@ -91,14 +91,14 @@ function getRating(curNode, curUser) {
 	*/
 	// Use the factored RatingService instead
 	/*
-	var ratingData = ratings.getRatingData(curNode);
+	var ratingData = scRatings.getRatingData(curNode);
 	logger.log("User rating:" + 
 
-	var ratingData = ratings.getRatingData(curNode);
+	var ratingData = scRatings.getRatingData(curNode);
 
 	rating.average = ratingData.getRating());
 	rating.count = ratingData.getCount());
-	rating.user = ratings.getUserRating(curNode, curUser));
+	rating.user = scRatings.getUserRating(curNode, curUser));
 	return rating;
 }
 */

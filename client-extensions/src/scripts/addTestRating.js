@@ -20,5 +20,5 @@ var ratingsNode = document.createNode("rating" + new Date().getTime(), "sc:ratin
 ratingsNode.save();
 */
 
-ratings.rate(document, ratingValue, person.properties.userName);
+scRatings.rate(document, ratingValue, person.properties.userName);
 logger.log("Ratings node saved.");
