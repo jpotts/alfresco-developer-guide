@@ -14,8 +14,6 @@
 		<!-- Import Alfresco Content Domain Model Definitions -->
 		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
 		<import uri="http://www.alfresco.org/model/system/1.0" prefix="sys" />
-		<!-- Import User Model Definitions -->
-        <import uri="http://www.alfresco.org/model/user/1.0" prefix="usr"/>
 	</imports>
 
 	<!-- Introduction of new namespaces defined by this model -->
@@ -23,214 +21,22 @@
 		<namespace uri="http://www.someco.com/model/content/1.0" prefix="sc" />
 	</namespaces>
 
-	<constraints>
-		<constraint name="sc:campaignList" type="LIST">
-            <parameter name="allowedValues">
-                <list>
-                    <value>Application Syndication</value>
-					<value>Private Event Retailing</value>
-                    <value>Social Shopping</value>
-                </list>
-            </parameter>
-        </constraint>
-		<constraint name="sc:statusIndicatorList" type="LIST">
-            <parameter name="allowedValues">
-                <list>
-                    <value>Green</value>
-                    <value>Yellow</value>
-                    <value>Red</value>
-                </list>
-            </parameter>
-        </constraint>
-		<constraint name="sc:roleList" type="LIST">
-            <parameter name="allowedValues">
-                <list>
-                    <value>Consultant</value>
-                    <value>Senior Consultant</value>
-                    <value>Technical Architect</value>
-                </list>
-            </parameter>
-        </constraint>
-	</constraints>
-
 	<types>
 		<!-- Enterprise-wide generic document type -->
 		<type name="sc:doc">
 			<title>Someco Document</title>
 			<parent>cm:content</parent>
-			<associations>
-				<association name="sc:relatedDocuments">
-					<title>Related Documents</title>
-					<source>
-						<mandatory>false</mandatory>
-						<many>true</many>
-					</source>
-					<target>
-						<class>sc:doc</class>
-						<mandatory>false</mandatory>
-						<many>true</many>
-					</target>
-				</association>
-			</associations>
-			<mandatory-aspects>
-			  <aspect>cm:generalclassifiable</aspect>
-			</mandatory-aspects>
-		</type>
-
-		<type name="sc:legalDoc">
-			<title>Someco Legal Document</title>
-			<parent>sc:doc</parent>
 		</type>
 
 		<type name="sc:marketingDoc">
 			<title>Someco Marketing Document</title>
-			<parent>sc:doc</parent>
-			<properties>
-				<property name="sc:campaign">
-					<type>d:text</type>
-					<multiple>true</multiple>
-					<constraints>
-						<constraint ref="sc:campaignList" />
-					</constraints>
-				</property>
-			</properties>
-		</type>
-		
-		<type name="sc:hrDoc">
-			<title>Someco HR Document</title>
-			<parent>sc:doc</parent>
-		</type>
-
-		<type name="sc:hrPolicy">
-			<title>Someco HR Policy</title>
-			<parent>sc:hrDoc</parent>
-			<mandatory-aspects>
-				<aspect>cm:replaceable</aspect>
-			</mandatory-aspects>
-		</type>
-
-		<type name="sc:resume">
-			<title>Someco Resume</title>
-			<parent>sc:hrDoc</parent>
-			<properties>
-				<property name="sc:candidateName">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>
-				<property name="sc:candidateRole">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-					<constraints>
-						<constraint ref="sc:roleList" />
-					</constraints>					
-				</property>
-			</properties>			
-		</type>
-
-		<type name="sc:salesDoc">
-			<title>Someco Sales Document</title>
-			<parent>sc:doc</parent>
-		</type>
-
-		<type name="sc:opsDoc">
-			<title>Someco Operations Document</title>
 			<parent>sc:doc</parent>
 		</type>
 
 		<type name="sc:whitepaper">
 			<title>Someco Whitepaper</title>
 			<parent>sc:marketingDoc</parent>
-		</type>
-		
-		<type name="sc:rating">
-			<title>Someco Rating</title>
-			<parent>sys:base</parent>
-			<properties>
-				<property name="sc:rating">					
-					<type>d:int</type>
-					<mandatory>true</mandatory>
-				</property>
-				<property name="sc:rater">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>
-			</properties>
-		</type>
+		</type>		
 	</types>
 
-	<aspects>
-		<aspect name="sc:webable">
-			<title>Someco Webable</title>
-			<properties>
-				<property name="sc:published">
-					<type>d:date</type>
-				</property>
-				<property name="sc:isActive">
-					<type>d:boolean</type>
-					<default>false</default>
-				</property>
-			</properties>
-		</aspect>
-		<aspect name="sc:clientRelated">
-			<title>Someco Client Metadata</title>
-			<properties>
-				<property name="sc:clientName">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>				
-				<property name="sc:projectName">
-					<type>d:text</type>
-					<mandatory>false</mandatory>
-				</property>
-			</properties>
-		</aspect>	
-		<aspect name="sc:rateable">
-			<title>Someco Rateable</title>
-			<properties>
-				<property name="sc:averageRating">
-					<type>d:double</type>
-					<mandatory>false</mandatory>
-				</property>
-				<property name="sc:totalRating">
-					<type>d:int</type>
-					<mandatory>false</mandatory>
-				</property>
-				<property name="sc:ratingCount">
-					<type>d:int</type>
-					<mandatory>false</mandatory>
-				</property>
-			</properties>
-			<associations>
-				<child-association name="sc:ratings">
-					<title>Rating</title>
-					<source>
-						<mandatory>false</mandatory>
-						<many>true</many>
-					</source>
-					<target>
-						<class>sc:rating</class>
-						<mandatory>false</mandatory>
-						<many>true</many>
-					</target>
-				</child-association>
-			</associations>
-		</aspect>
-		<aspect name="sc:statusable">
-			<title>Someco Status Tracking</title>
-			<properties>
-				<property name="sc:statusIndicator">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-					<default>Green</default>
-					<constraints>
-						<constraint ref="sc:statusIndicatorList" />
-					</constraints>
-				</property>
-				<property name="sc:statusSummary">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>
-			</properties>
-		</aspect>
-	</aspects>
 </model>
