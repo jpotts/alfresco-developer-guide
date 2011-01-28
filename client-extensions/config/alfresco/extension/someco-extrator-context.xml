@@ -4,7 +4,7 @@
 <beans>
 
 	<!-- use the OOTB extracter, but point to our own mapping file -->
-    <bean id="extracter.Office" class="org.alfresco.repo.content.metadata.OfficeMetadataExtracter" parent="baseMetadataExtracter" >
+     <bean id="extracter.Office" class="org.alfresco.repo.content.metadata.OfficeMetadataExtracter" parent="baseMetadataExtracter" >
 	    <property name="inheritDefaultMapping">
 		    <value>true</value>
 		</property>
