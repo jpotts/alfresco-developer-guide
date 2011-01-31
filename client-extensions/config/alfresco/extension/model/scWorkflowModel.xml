@@ -80,21 +80,9 @@
 		
 		<type name="scwf:submitNoApprovalTask">
 			<parent>wcmwf:startTask</parent>
-			<associations>
-				<association name="wcmwf:webproject">
-					<source>
-						<mandatory>false</mandatory>
-						<many>false</many>
-					</source>
-					<target>
-						<class>wca:webfolder</class>
-						<mandatory>true</mandatory>
-						<many>false</many>
-					</target>
-				</association>
-			</associations>
 			<mandatory-aspects>
 				<aspect>wcmwf:submission</aspect>
+				<aspect>wcmwf:webproject</aspect>
 			</mandatory-aspects>
 		</type>
 		

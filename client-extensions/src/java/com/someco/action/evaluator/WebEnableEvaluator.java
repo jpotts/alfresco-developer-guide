@@ -9,6 +9,8 @@ import org.alfresco.web.bean.repository.Node;
 import org.alfresco.web.bean.repository.Repository;
 
 import com.someco.model.SomeCoModel;
+import com.someco.util.Constants;
+import com.someco.util.GroupMembershipCheck;
 
 public class WebEnableEvaluator implements ActionEvaluator {
 
@@ -22,12 +24,9 @@ public class WebEnableEvaluator implements ActionEvaluator {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		// check the group
-		// DISABLING in favor of custom PortalPublisher permission
-		/*
 		if (!GroupMembershipCheck.isCurrentUserInGroup(context, Constants.GROUP_WEB_PUBLISHER)) {
 			return false;
 		}
-		*/
 		
 		// otherwise, check the aspect, then check the active property
 		NodeRef ref = new NodeRef(Repository.getStoreRef(), node.getId());

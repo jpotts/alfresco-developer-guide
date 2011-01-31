@@ -222,7 +222,7 @@
             <action id="web_enable">
 				<permissions>
 					<!-- each permission can be an Allow or Deny check -->
-					<permission allow="true">PortalPublisher</permission>
+					<permission allow="true">Write</permission>
 				</permissions>
 				<evaluator>com.someco.action.evaluator.WebEnableEvaluator</evaluator>
 				<label-id>enableWeb</label-id>
@@ -238,7 +238,7 @@
 			<action id="web_disable">
 				<permissions>
 					<!-- each permission can be an Allow or Deny check -->
-					<permission allow="true">PortalPublisher</permission>
+					<permission allow="true">Write</permission>
 				</permissions>
 				<evaluator>com.someco.action.evaluator.WebDisableEvaluator</evaluator>
 				<label-id>disableWeb</label-id>
