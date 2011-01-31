@@ -4,32 +4,61 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.transaction.UserTransaction;
-
+import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.model.ContentModel;
-import org.alfresco.service.cmr.security.AuthenticationService;
+import org.alfresco.repo.security.authentication.AuthenticationContext;
+import org.alfresco.repo.security.authentication.AuthenticationUtil;
+import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
+import org.alfresco.repo.transaction.RetryingTransactionHelper.RetryingTransactionCallback;
 import org.alfresco.service.cmr.security.AuthorityService;
 import org.alfresco.service.cmr.security.AuthorityType;
+import org.alfresco.service.cmr.security.MutableAuthenticationService;
 import org.alfresco.service.cmr.security.PersonService;
 import org.alfresco.service.namespace.QName;
 import org.alfresco.service.transaction.TransactionService;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.extensions.surf.util.AbstractLifecycleBean;
 
-public class BootstrapAuthorityCreator {
+public class BootstrapAuthorityCreator extends AbstractLifecycleBean {
 	private AuthorityService authorityService;
     private PersonService personService;
     private TransactionService transactionService;
-    private AuthenticationService authenticationService;
-    private UserTransaction tx;
+    private MutableAuthenticationService authenticationService;
     private static Logger logger = Logger.getLogger(BootstrapAuthorityCreator.class);
+    private AuthenticationContext authenticationContext;
     
-    public void init() throws Exception {
+    public void bootstrap() {
+    	try
+        {
+            // import the content - note: in MT case, this will run in System context of tenant domain
+            RunAsWork<Object> importRunAs = new RunAsWork<Object>()
+            {
+                public Object doWork() throws Exception
+                {
+                    RetryingTransactionCallback<Object> doImportCallback = new RetryingTransactionCallback<Object>()
+                    {
+                        public Object execute() throws Throwable
+                        {   
+                            doBootstrap();
+                            return null;
+                        }
+                    };
+                    return transactionService.getRetryingTransactionHelper().doInTransaction(doImportCallback, transactionService.isReadOnly(), false);
+                }
+            };
+            AuthenticationUtil.runAs(importRunAs, authenticationContext.getSystemUserName());
+        }
+        catch(Throwable e)
+        {
+            throw new AlfrescoRuntimeException("Bootstrap failed", e);
+        }
+    }
+    
+    private void doBootstrap() {
     	String salesGroup;
     	String marketingGroup;
-   	
-    	tx = transactionService.getUserTransaction();
-        tx.begin();
-        
+
     	// create tuser1, tuser2, tuser3, tuser4
         if(!authenticationService.authenticationExists("tuser1")) {
     		authenticationService.createAuthentication("tuser1", "password".toCharArray());
@@ -75,7 +104,7 @@ public class BootstrapAuthorityCreator {
     		salesGroup = authorityService.getName(AuthorityType.GROUP, "sales");
     	} else {
     		// create the sales group
-    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "sales");
+    		salesGroup = authorityService.createAuthority(AuthorityType.GROUP, "sales");
     	}
 
     	//add tuser1 and tuser2 to the sales group
@@ -86,15 +115,12 @@ public class BootstrapAuthorityCreator {
     		marketingGroup = authorityService.getName(AuthorityType.GROUP, "marketing");
     	} else {
     		// create the marketing group
-    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, null, "marketing");
+    		marketingGroup = authorityService.createAuthority(AuthorityType.GROUP, "marketing");
     	}
 
     	//add tuser3 and tuser4 to the marketing group
     	authorityService.addAuthority(marketingGroup, "tuser3");
     	authorityService.addAuthority(marketingGroup, "tuser4");
-    	
-    	tx.commit();
-
     }
     
     private Map<QName, Serializable> createDefaultProperties(String userName, String firstName, String lastName,
@@ -120,7 +146,23 @@ public class BootstrapAuthorityCreator {
 		this.transactionService = transactionService;
 	}
 
-	public void setAuthenticationService(AuthenticationService authenticationService) {
+	public void setAuthenticationService(MutableAuthenticationService authenticationService) {
 		this.authenticationService = authenticationService;
 	}
+
+    @Override
+    protected void onBootstrap(ApplicationEvent event) {
+        bootstrap();
+    }
+	
+    public void setAuthenticationContext(AuthenticationContext authenticationContext) {
+        this.authenticationContext = authenticationContext;
+    }
+
+	@Override
+	protected void onShutdown(ApplicationEvent arg0) {
+		// noop		
+	}
+	
+	
 }
