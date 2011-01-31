@@ -1,5 +1,4 @@
 package com.someco.scripts;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,8 +9,8 @@ import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.namespace.QName;
-import org.alfresco.web.scripts.WebScriptRequest;
-import org.alfresco.web.scripts.WebScriptStatus;
+import org.springframework.extensions.webscripts.Status;
+import org.springframework.extensions.webscripts.WebScriptRequest;
 import org.apache.log4j.Logger;
 
 import com.someco.model.SomeCoModel;
@@ -23,15 +22,15 @@ import com.someco.service.RatingService;
  * @author jpotts
  * 
  */
-public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
+public class PostRating extends org.springframework.extensions.webscripts.DeclarativeWebScript {
 
 	Logger logger = Logger.getLogger(PostRating.class);
 			
 	private NodeService nodeService;
-	private RatingService ratingService; // See "Refactoring" topic in the Chapter
+	private RatingService ratingService;
 
 	@Override
-	protected Map<String, Object> executeImpl(WebScriptRequest req, WebScriptStatus status) {
+	protected Map<String, Object> executeImpl(WebScriptRequest req, Status status) {
 		int ratingValue = -1;
 		String id =	req.getParameter("id");
 		String rating = req.getParameter("rating");
@@ -44,26 +43,22 @@ public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
 		
 		if (id == null || rating == null ||	user == null) {
 			logger.debug("ID, rating, or user not set");
-			status.setCode(400);			
-			status.setMessage("Required data has not been provided");
-			status.setRedirect(true);
+			status.setCode(Status.STATUS_BAD_REQUEST, "Required data has not been provided");
 		} else if ((ratingValue < 1) || (ratingValue > 5)) {
 			logger.debug("Rating out of range");
-			status.setCode(400);			
-			status.setMessage("Rating value must be between 1 and 5 inclusive");
-			status.setRedirect(true);
+			status.setCode(Status.STATUS_BAD_REQUEST, "Rating value must be between 1 and 5 inclusive");
 		} else {
 			logger.debug("Getting current node");
 			NodeRef curNode = new NodeRef("workspace://SpacesStore/" + id);	
 			if (!nodeService.exists(curNode)) {
 				logger.debug("Node not found");
-				status.setCode(404);
-				status.setMessage("No node found for id:" + id);
-				status.setRedirect(true);
+				status.setCode(Status.STATUS_NOT_FOUND, "No node found for id:" + id);
 			} else {
+				// Refactored to use the Rating Service
 				//create(curNode, Integer.parseInt(rating), user);
 				ratingService.rate(curNode, Integer.parseInt(rating), user);
-			}		
+			}
+		
 		}
 
 		logger.debug("Setting model");
@@ -76,16 +71,14 @@ public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
 	}
 	
 	/**
-	 * Original quick-and-dirty create method which was later refactored into the
-	 * RatingService.
 	 * 
 	 * @param nodeRef
 	 * @param rating
 	 * @param user
-	 * @deprecated Use the RatingService instead
+	 * @deprecated Use the Rating Service instead
 	 */
-	public void create(final NodeRef nodeRef, final int rating, final String user) {
-		logger.debug("Inside Rating.create()");
+	protected void create(final NodeRef nodeRef, final int rating, final String user) {
+
 		AuthenticationUtil.runAs(new RunAsWork<String>() {
 			@SuppressWarnings("synthetic-access")
 			public String doWork() throws Exception {
@@ -112,10 +105,9 @@ public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
 					return "";
 			}
 		},
-		"admin");
-					
+		"admin");					
 	}
-
+	
 	public void setNodeService(NodeService nodeService) {
 		this.nodeService = nodeService;
 	}
@@ -125,3 +117,4 @@ public class PostRating extends org.alfresco.web.scripts.DeclarativeWebScript {
 	}
 
 }
+
