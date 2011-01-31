@@ -14,8 +14,6 @@
 		<!-- Import Alfresco Content Domain Model Definitions -->
 		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
 		<import uri="http://www.alfresco.org/model/system/1.0" prefix="sys" />
-		<!-- Import User Model Definitions -->
-        <import uri="http://www.alfresco.org/model/user/1.0" prefix="usr"/>
 	</imports>
 
 	<!-- Introduction of new namespaces defined by this model -->
@@ -33,26 +31,8 @@
                 </list>
             </parameter>
         </constraint>
-		<constraint name="sc:statusIndicatorList" type="LIST">
-            <parameter name="allowedValues">
-                <list>
-                    <value>Green</value>
-                    <value>Yellow</value>
-                    <value>Red</value>
-                </list>
-            </parameter>
-        </constraint>
-		<constraint name="sc:roleList" type="LIST">
-            <parameter name="allowedValues">
-                <list>
-                    <value>Consultant</value>
-                    <value>Senior Consultant</value>
-                    <value>Technical Architect</value>
-                </list>
-            </parameter>
-        </constraint>
 	</constraints>
-
+	
 	<types>
 		<!-- Enterprise-wide generic document type -->
 		<type name="sc:doc">
@@ -107,24 +87,6 @@
 			<mandatory-aspects>
 				<aspect>cm:replaceable</aspect>
 			</mandatory-aspects>
-		</type>
-
-		<type name="sc:resume">
-			<title>Someco Resume</title>
-			<parent>sc:hrDoc</parent>
-			<properties>
-				<property name="sc:candidateName">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>
-				<property name="sc:candidateRole">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-					<constraints>
-						<constraint ref="sc:roleList" />
-					</constraints>					
-				</property>
-			</properties>			
 		</type>
 
 		<type name="sc:salesDoc">
@@ -214,23 +176,6 @@
 					</target>
 				</child-association>
 			</associations>
-		</aspect>
-		<aspect name="sc:statusable">
-			<title>Someco Status Tracking</title>
-			<properties>
-				<property name="sc:statusIndicator">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-					<default>Green</default>
-					<constraints>
-						<constraint ref="sc:statusIndicatorList" />
-					</constraints>
-				</property>
-				<property name="sc:statusSummary">
-					<type>d:text</type>
-					<mandatory>true</mandatory>
-				</property>
-			</properties>
 		</aspect>
 	</aspects>
 </model>
