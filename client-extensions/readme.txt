@@ -8,13 +8,7 @@ Chapter 2 Examples
 
 Chapter 2 included two examples. Both examples implemented two small customizations: a custom login page and a few simple custom types. The examples showed how to package and deploy these customizations. One example does it by copying the customizations into an exploded Alfresco web application. The other does it by packaging an AMP file and then calling the MMT to install the AMP into a WAR.
 
-To deploy without AMP:
+To deploy:
 
 1. Make sure build.properties reflects the appropriate file paths.
 2. Run "ant deploy".
-
-To deploy as an AMP:
-
-1. Make sure build.properties reflects the appropriate file paths.
-2. Copy the alfresco.war to the client-extensions/build directory if it isn't there already.
-3. Run "ant deploy-amp -Dalfresco.war.path=[path to your workspace]/client-extensions/build/alfresco.war".
