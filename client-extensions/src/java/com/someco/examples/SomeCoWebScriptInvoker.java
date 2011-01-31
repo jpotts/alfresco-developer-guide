@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-import org.alfresco.util.Base64;
+import org.springframework.extensions.surf.util.Base64;
 import org.alfresco.webservice.util.AuthenticationUtils;
 
 public class SomeCoWebScriptInvoker {
