@@ -12,11 +12,11 @@ if (whitepapers == null || whitepapers.length == 0) {
 	logger.log("User:" + args.user);
 	var whitepaperInfo = new Array();
 	for (i = 0; i < whitepapers.length; i++) {
-		var ratingData = ratings.getRatingData(whitepapers[i]);
+		var ratingData = scRatings.getRatingData(whitepapers[i]);
 		var rating = {};
 		rating.average = ratingData.getRating();
 		rating.count = ratingData.getCount();
-		rating.user = ratings.getUserRating(whitepapers[i], args.user);
+		rating.user = scRatings.getUserRating(whitepapers[i], args.user);
 	
 		var whitepaper = new whitepaperEntry(whitepapers[i], rating);
 		whitepaperInfo[i] = whitepaper;

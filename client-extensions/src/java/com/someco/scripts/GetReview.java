@@ -6,8 +6,9 @@ import java.util.Map;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.workflow.WorkflowService;
-import org.alfresco.web.scripts.Status;
-import org.alfresco.web.scripts.WebScriptRequest;
+import org.springframework.extensions.webscripts.DeclarativeWebScript;
+import org.springframework.extensions.webscripts.Status;
+import org.springframework.extensions.webscripts.WebScriptRequest;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  * 
  * @author jpotts 
  */
-public class GetReview extends org.alfresco.web.scripts.DeclarativeWebScript {
+public class GetReview extends DeclarativeWebScript {
 
 	Logger logger = Logger.getLogger(GetReview.class);
 			
