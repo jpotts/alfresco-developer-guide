@@ -21,7 +21,6 @@
       <namespace uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
       <namespace uri="http://www.alfresco.org/model/wcmmodel/1.0" prefix="wcm"/>
       <namespace uri="http://www.alfresco.org/model/wcmappmodel/1.0" prefix="wca"/>
-      <namespace uri="http://www.someco.com/model/content/1.0" prefix="sc"/>      
    </namespaces>
 
    <!--                                                                                   -->
@@ -369,12 +368,6 @@
       <permissionGroup name="ContentReviewer" allowFullControl="false" expose="false">
          <includePermissionGroup permissionGroup="Editor" type="cm:cmobject" />
       </permissionGroup>
-      
-      <!-- A PortalPublisher is someone who can read everything and write properties -->
-	  <permissionGroup name="PortalPublisher" allowFullControl="false" expose="false" >
-		  <includePermissionGroup type="cm:cmobject" permissionGroup="Consumer"/>
-		  <includePermissionGroup type="sys:base" permissionGroup="WriteProperties"/>
-	  </permissionGroup> 
        
    </permissionSet>
    
@@ -391,7 +384,6 @@
       <permissionGroup name="Contributor" extends="true" expose="true"/>
       <permissionGroup name="Editor" extends="true" expose="true"/>
       <permissionGroup name="Consumer" extends="true" expose="true"/>
-      <permissionGroup name="PortalPublisher" extends="true" expose="true"/>      
       <permissionGroup name="RecordAdministrator" extends="true" expose="false"/>
       
    </permissionSet>
@@ -406,7 +398,6 @@
       <permissionGroup name="Contributor" extends="true" expose="true"/>
       <permissionGroup name="Editor" extends="true" expose="true"/>
       <permissionGroup name="Consumer" extends="true" expose="true"/>
-	  <permissionGroup name="PortalPublisher" extends="true" expose="true"/>
       <permissionGroup name="RecordAdministrator" extends="true" expose="false"/>
       
    </permissionSet>

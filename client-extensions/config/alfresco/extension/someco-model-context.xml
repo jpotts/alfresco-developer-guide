@@ -41,7 +41,7 @@
         </property>
     </bean>
  
-    <bean id='permissionsModelDAO' class="org.alfresco.repo.security.permissions.impl.model.PermissionModel">
+    <bean id='permissionsModelDAO' class="org.alfresco.repo.security.permissions.impl.model.PermissionModel" init-method="init">
         <property name="model">
             <value>alfresco/extension/model/scPermissionDefinitions.xml</value>
         </property>
