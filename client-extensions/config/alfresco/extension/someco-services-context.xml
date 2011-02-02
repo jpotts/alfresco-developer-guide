@@ -50,11 +50,11 @@
         <property name="objectDefinitionSource">
             <value>
 				com.someco.service.RatingService.hasRatings=ACL_ALLOW
-				com.someco.service.RatingService.rate=ROLE_AUTHENTICATED
+				com.someco.service.RatingService.rate=ACL_ALLOW
 				com.someco.service.RatingService.deleteRatings=ACL_METHOD.ROLE_ADMINISTRATOR
-				com.someco.service.RatingService.getRatingData=ROLE_AUTHENTICATED
-				com.someco.service.RatingService.getUserRating=ROLE_AUTHENTICATED
-            </value>
+				com.someco.service.RatingService.getRatingData=ACL_ALLOW
+				com.someco.service.RatingService.getUserRating=ACL_ALLOW
+			</value>
         </property>
 	</bean>
 	
