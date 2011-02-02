@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+	<!-- use the OOTB extracter, but point to our own mapping file -->
+    <bean id="extracter.Office" class="org.alfresco.repo.content.metadata.OfficeMetadataExtracter" parent="baseMetadataExtracter" >
+	    <property name="inheritDefaultMapping">
+		    <value>true</value>
+		</property>
+		<property name="mappingProperties">
+	            <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	            	<property name="location">
+				<value>classpath:alfresco/extension/someco-office-document-extractor-mappings.properties</value>
+	                </property>
+	            </bean>
+		</property>
+    </bean>
+    
+    <!-- use our own extracter and a custom mapping file -->
+    <bean id="extracter.PDFBox" class="com.someco.extracter.EnhancedPdfExtracter" parent="baseMetadataExtracter" >
+	    <property name="inheritDefaultMapping">
+		    <value>true</value>
+		</property>
+		<property name="mappingProperties">
+	            <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	            	<property name="location">
+				<value>classpath:alfresco/extension/someco-pdf-document-extractor-mappings.properties</value>
+	                </property>
+	            </bean>
+		</property>
+    </bean>
+
+</beans>
