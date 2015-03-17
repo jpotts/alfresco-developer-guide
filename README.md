@@ -17,3 +17,5 @@ The code has been tested (and tagged) against the following Alfresco releases:
 Starting with 3.2 Enterprise, we stopped supporting the CAS example in Chapter 9. The rest of the examples should work in for all releases mentioned above.
 
 Don't use the code that's in trunk. Instead, use the code in the tag for the specific book chapter and Alfresco release that you are interested in.
+
+If you are looking in more current Alfresco tutorials for release 4.x and higher, see https://github.com/jpotts/alfresco-developer-series
